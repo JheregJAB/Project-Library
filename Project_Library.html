@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Project_Library.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Monospaced}
+table {color: #000000; background-color: #e9e8e2; font-family: Monospaced}
+.ST0 {color: #969696; font-family: Monospaced; font-weight: bold}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST1 {color: #ce7b00; font-family: Monospaced; font-weight: bold}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">E:\School\bhc\CS225\Project_Library\src\project_library\Project_Library.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="comment">/* Name:                Team Enterprise</span>
+<span class="line-number">  2</span> <span class="comment"> * Program:             project_library</span>
+<span class="line-number">  3</span> <span class="comment"> * Problem Statement:   A program to manage a library</span>
+<span class="line-number">  4</span> <span class="comment"> * Input:               Library settings, books, patrons, lots of menu options</span>
+<span class="line-number">  5</span> <span class="comment"> * Output:              Whatever the user asks for, as far as the above.</span>
+<span class="line-number">  6</span> <span class="comment">*/</span>
+<span class="line-number">  7</span> 
+<span class="line-number">  8</span> <span class="keyword-directive">package</span> project_library;
+<span class="line-number">  9</span> <span class="keyword-directive">import</span> java.util.Scanner;
+<span class="line-number"> 10</span> <span class="comment">/**</span>
+<span class="line-number"> 11</span> <span class="comment"> *</span>
+<span class="line-number"> 12</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">jacob</span>
+<span class="line-number"> 13</span>  <span class="comment">*/</span>
+<span class="line-number"> 14</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> Project_Library
+<span class="line-number"> 15</span> { <span class="comment">//begin Project_Library</span>
+<span class="line-number"> 16</span> 
+<span class="line-number"> 17</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> main(String[] args) 
+<span class="line-number"> 18</span>     { <span class="comment">// begin main</span>
+<span class="line-number"> 19</span>         DisplayWelcome();
+<span class="line-number"> 20</span>         Library library = loadLibrary();
+<span class="line-number"> 21</span>         Patron[] patrons = loadPatrons();
+<span class="line-number"> 22</span>         Book[] books = loadBooks();
+<span class="line-number"> 23</span>         <span class="keyword-directive">if</span> ( askPassword(library) )
+<span class="line-number"> 24</span>             MainMenu(library,patrons,books);
+<span class="line-number"> 25</span>         
+<span class="line-number"> 26</span>         saveLibrary(library);
+<span class="line-number"> 27</span>         savePatrons(patrons);
+<span class="line-number"> 28</span>         saveBooks(books);
+<span class="line-number"> 29</span>         System.exit(0);
+<span class="line-number"> 30</span>     } <span class="comment">//End main</span>
+<span class="line-number"> 31</span>     
+<span class="line-number"> 32</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> DisplayWelcome()
+<span class="line-number"> 33</span>     {
+<span class="line-number"> 34</span>         System.out.println();
+<span class="line-number"> 35</span>         System.out.println(<span class="character">&quot;</span><span class="character">##################################################################</span><span class="character">&quot;</span>);
+<span class="line-number"> 36</span>         System.out.println(<span class="character">&quot;</span><span class="character">######      Welcome to the Library Management System!     ########</span><span class="character">&quot;</span>);
+<span class="line-number"> 37</span>         System.out.println(<span class="character">&quot;</span><span class="character">######         It was designed by Team Enterprise         ########</span><span class="character">&quot;</span>);
+<span class="line-number"> 38</span>         System.out.println(<span class="character">&quot;</span><span class="character">######  It was commissioned by Black Hawk College, CS225  ########</span><span class="character">&quot;</span>);
+<span class="line-number"> 39</span>         System.out.println(<span class="character">&quot;</span><span class="character">######        For the City of Happyville, Illinois        ########</span><span class="character">&quot;</span>);
+<span class="line-number"> 40</span>         System.out.println(<span class="character">&quot;</span><span class="character">##################################################################</span><span class="character">&quot;</span>);
+<span class="line-number"> 41</span>         System.out.println();
+<span class="line-number"> 42</span>     }
+<span class="line-number"> 43</span>     
+<span class="line-number"> 44</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> MainMenu(Library library, Patron[] patrons, Book[] books)
+<span class="line-number"> 45</span>    {<span class="comment">//begin mainMenu</span>
+<span class="line-number"> 46</span>        Scanner keyboard = <span class="keyword-directive">new</span> Scanner(System.in);
+<span class="line-number"> 47</span>        <span class="keyword-directive">int</span> next;
+<span class="line-number"> 48</span>        <span class="keyword-directive">boolean</span> nextLoop = <span class="keyword-directive">true</span>;
+<span class="line-number"> 49</span>        <span class="keyword-directive">do</span>
+<span class="line-number"> 50</span>        {<span class="comment">//begin do</span>
+<span class="line-number"> 51</span>        System.out.println(<span class="character">&quot;</span><span class="character">Library Management</span><span class="character">&quot;</span>);
+<span class="line-number"> 52</span>        System.out.println(<span class="character">&quot;</span><span class="character">Please select your action:</span><span class="character">&quot;</span>);
+<span class="line-number"> 53</span>        System.out.println(<span class="character">&quot;</span><span class="character">1. Patron Records</span><span class="character">&quot;</span>);
+<span class="line-number"> 54</span>        System.out.println(<span class="character">&quot;</span><span class="character">2. Book Records</span><span class="character">&quot;</span>);
+<span class="line-number"> 55</span>        System.out.println(<span class="character">&quot;</span><span class="character">3. Checkout Book</span><span class="character">&quot;</span>);
+<span class="line-number"> 56</span>        System.out.println(<span class="character">&quot;</span><span class="character">4. Checkin Book</span><span class="character">&quot;</span>);
+<span class="line-number"> 57</span>        System.out.println(<span class="character">&quot;</span><span class="character">5. Library Settings</span><span class="character">&quot;</span>);
+<span class="line-number"> 58</span>        System.out.println(<span class="character">&quot;</span><span class="character">6. Exit</span><span class="character">&quot;</span>);
+<span class="line-number"> 59</span>        System.out.print(<span class="character">&quot;</span><span class="character">: </span><span class="character">&quot;</span>);
+<span class="line-number"> 60</span>        next = keyboard.nextInt();
+<span class="line-number"> 61</span>        <span class="keyword-directive">switch</span> (next)
+<span class="line-number"> 62</span>        {<span class="comment">//begin switch</span>
+<span class="line-number"> 63</span>            <span class="keyword-directive">case</span> 1: PatronOptions(); <span class="keyword-directive">break</span>;
+<span class="line-number"> 64</span>            <span class="keyword-directive">case</span> 2: BooksMenu(); <span class="keyword-directive">break</span>;
+<span class="line-number"> 65</span>            <span class="keyword-directive">case</span> 3: CheckoutBook(); <span class="keyword-directive">break</span>;
+<span class="line-number"> 66</span>            <span class="keyword-directive">case</span> 4: CheckinBook(); <span class="keyword-directive">break</span>;
+<span class="line-number"> 67</span>            <span class="keyword-directive">case</span> 5: LibrarySettingsMenu(); <span class="keyword-directive">break</span>;
+<span class="line-number"> 68</span>            <span class="keyword-directive">case</span> 6: nextLoop = <span class="keyword-directive">false</span>; <span class="keyword-directive">break</span>;
+<span class="line-number"> 69</span>        }<span class="comment">//end switch</span>
+<span class="line-number"> 70</span>        }<span class="keyword-directive">while</span> (nextLoop);<span class="comment">//end do</span>
+<span class="line-number"> 71</span>    }<span class="comment">//end mainMenu</span>
+<span class="line-number"> 72</span> 
+<span class="line-number"> 73</span> 
+<span class="line-number"> 74</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> BooksMenu()
+<span class="line-number"> 75</span>     {<span class="comment">//begin BooksMenu</span>
+<span class="line-number"> 76</span>         Scanner keyboard = <span class="keyword-directive">new</span> Scanner(System.in);
+<span class="line-number"> 77</span>         String WelcomeMenu;
+<span class="line-number"> 78</span>         <span class="keyword-directive">int</span> MenuOption;
+<span class="line-number"> 79</span> 
+<span class="line-number"> 80</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the Books Option Menu.</span><span class="character">&quot;</span>);
+<span class="line-number"> 81</span> 
+<span class="line-number"> 82</span>         <span class="keyword-directive">do</span>
+<span class="line-number"> 83</span>         {<span class="comment">//begin do</span>
+<span class="line-number"> 84</span>        System.out.println(<span class="character">&quot;</span><span class="character">Enter the option you want</span><span class="character">&quot;</span>
+<span class="line-number"> 85</span>                 + <span class="character">&quot;</span><span class="character">to do:</span><span class="ST1">\n</span><span class="character"> [1] to Search for books.</span><span class="character">&quot;</span>
+<span class="line-number"> 86</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character"> [2] to list all the books.</span><span class="character">&quot;</span>
+<span class="line-number"> 87</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character"> [3] to Edit the books.</span><span class="character">&quot;</span>
+<span class="line-number"> 88</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character"> [0] to Exit to the main menu</span><span class="character">&quot;</span>);
+<span class="line-number"> 89</span>        System.out.print(<span class="character">&quot;</span><span class="character">: </span><span class="character">&quot;</span>);
+<span class="line-number"> 90</span>        WelcomeMenu = keyboard.nextLine();
+<span class="line-number"> 91</span>         MenuOption= Integer.parseInt(WelcomeMenu);
+<span class="line-number"> 92</span> 
+<span class="line-number"> 93</span>         <span class="keyword-directive">switch</span> (MenuOption)
+<span class="line-number"> 94</span>         {<span class="comment">//begin switch</span>
+<span class="line-number"> 95</span>             <span class="keyword-directive">case</span> 0: <span class="keyword-directive">break</span>;
+<span class="line-number"> 96</span>             <span class="keyword-directive">case</span> 1: BookSearch();<span class="keyword-directive">break</span>;
+<span class="line-number"> 97</span>             <span class="keyword-directive">case</span> 2: AllBooks();<span class="keyword-directive">break</span>;
+<span class="line-number"> 98</span>             <span class="keyword-directive">case</span> 3: EditBooks();<span class="keyword-directive">break</span>;
+<span class="line-number"> 99</span>             <span class="keyword-directive">default</span>:System.out.println(<span class="character">&quot;</span><span class="character">Invalid Option</span><span class="character">&quot;</span>); <span class="keyword-directive">break</span>;
+<span class="line-number">100</span>         }<span class="comment">//end switch</span>
+<span class="line-number">101</span> 
+<span class="line-number">102</span>         }<span class="comment">//end do</span>
+<span class="line-number">103</span>         <span class="keyword-directive">while</span>(MenuOption!=0);
+<span class="line-number">104</span> 
+<span class="line-number">105</span>         System.out.println(<span class="character">&quot;</span><span class="character">End of Books Menu.</span><span class="character">&quot;</span>);
+<span class="line-number">106</span> 
+<span class="line-number">107</span> 
+<span class="line-number">108</span>     }<span class="comment">//end BooksMenu</span>
+<span class="line-number">109</span> 
+<span class="line-number">110</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> EditBooks()
+<span class="line-number">111</span>     {<span class="comment">//begin EditBooks</span>
+<span class="line-number">112</span>         Scanner keyboard = <span class="keyword-directive">new</span> Scanner(System.in);
+<span class="line-number">113</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the Edit Books Method.</span><span class="character">&quot;</span>);
+<span class="line-number">114</span>         String EditOptions;
+<span class="line-number">115</span>         <span class="keyword-directive">int</span> EditOptionsChoice;
+<span class="line-number">116</span> 
+<span class="line-number">117</span>        <span class="keyword-directive">do</span>
+<span class="line-number">118</span>        {<span class="comment">//begin Do</span>
+<span class="line-number">119</span>        System.out.println(<span class="character">&quot;</span><span class="character">Edit Books Options</span><span class="character">&quot;</span>
+<span class="line-number">120</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">[1] to change book status.</span><span class="character">&quot;</span>
+<span class="line-number">121</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">[2] to change the books condition.</span><span class="character">&quot;</span>
+<span class="line-number">122</span>                 + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">[3] to go back to the  EditBooks Menu.</span><span class="character">&quot;</span>);
+<span class="line-number">123</span>        System.out.print(<span class="character">&quot;</span><span class="character">: </span><span class="character">&quot;</span>);
+<span class="line-number">124</span>        EditOptions = keyboard.nextLine();
+<span class="line-number">125</span>         EditOptionsChoice = Integer.parseInt(EditOptions);
+<span class="line-number">126</span>         <span class="keyword-directive">switch</span> (EditOptionsChoice)
+<span class="line-number">127</span>         {<span class="comment">//begin Switch</span>
+<span class="line-number">128</span>             <span class="keyword-directive">case</span> 0: <span class="keyword-directive">break</span>;
+<span class="line-number">129</span>             <span class="keyword-directive">case</span> 1: EditBookStatus();<span class="keyword-directive">break</span>;
+<span class="line-number">130</span>             <span class="keyword-directive">case</span> 2: EditBookCondition();<span class="keyword-directive">break</span>;
+<span class="line-number">131</span>             <span class="keyword-directive">default</span>:System.out.println(<span class="character">&quot;</span><span class="character">Invalid Option</span><span class="character">&quot;</span>); <span class="keyword-directive">break</span>;
+<span class="line-number">132</span>         }<span class="comment">//end Switch</span>
+<span class="line-number">133</span>        }<span class="comment">//end Do</span>
+<span class="line-number">134</span>        <span class="keyword-directive">while</span> (EditOptionsChoice!=3);
+<span class="line-number">135</span>     }<span class="comment">//end EditBooks</span>
+<span class="line-number">136</span> 
+<span class="line-number">137</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> BookSearch()
+<span class="line-number">138</span>     {<span class="comment">//begin BookSearch</span>
+<span class="line-number">139</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the Book Search Method.</span><span class="character">&quot;</span>);
+<span class="line-number">140</span>     }<span class="comment">//end BookSearch</span>
+<span class="line-number">141</span> 
+<span class="line-number">142</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> AllBooks()
+<span class="line-number">143</span>     {<span class="comment">//begin AllBooks</span>
+<span class="line-number">144</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the All Books method.</span><span class="character">&quot;</span>);
+<span class="line-number">145</span>     }<span class="comment">//end AllBooks</span>
+<span class="line-number">146</span> 
+<span class="line-number">147</span> 
+<span class="line-number">148</span> 
+<span class="line-number">149</span>         <span class="comment">//***** PatronOptions ****************</span>
+<span class="line-number">150</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> PatronOptions()
+<span class="line-number">151</span>     {<span class="comment">//begin of PatronOptions</span>
+<span class="line-number">152</span>         Scanner keyboard = <span class="keyword-directive">new</span> Scanner(System.in);
+<span class="line-number">153</span>         <span class="keyword-directive">int</span> response;
+<span class="line-number">154</span> 
+<span class="line-number">155</span>         <span class="keyword-directive">do</span> 
+<span class="line-number">156</span>         { <span class="comment">//begin do while</span>
+<span class="line-number">157</span> 
+<span class="line-number">158</span>             <span class="comment">//Give Patron Options menu and ask user where to go</span>
+<span class="line-number">159</span>             System.out.println(<span class="character">&quot;</span><span class="character">Patron Options</span><span class="character">&quot;</span>);
+<span class="line-number">160</span>             System.out.println(<span class="character">&quot;</span><span class="character">Please enter the number of the option</span><span class="character">&quot;</span>
+<span class="line-number">161</span>                     + <span class="character">&quot;</span><span class="character"> you would like to select.</span><span class="ST1">\n</span><span class="character">&quot;</span>);
+<span class="line-number">162</span>             System.out.println(<span class="character">&quot;</span><span class="character">[1] Add Patron</span><span class="character">&quot;</span>);
+<span class="line-number">163</span>             System.out.println(<span class="character">&quot;</span><span class="character">[2] Search For And Edit Patron</span><span class="character">&quot;</span>);
+<span class="line-number">164</span>             System.out.println(<span class="character">&quot;</span><span class="character">[3] List All Patrons</span><span class="character">&quot;</span>);
+<span class="line-number">165</span>             System.out.println(<span class="character">&quot;</span><span class="character">[4] Check Patron&#39;s Fines</span><span class="character">&quot;</span>);
+<span class="line-number">166</span>             System.out.println(<span class="character">&quot;</span><span class="character">[5] Exit To Main Menu</span><span class="ST1">\n</span><span class="character">&quot;</span>);
+<span class="line-number">167</span>             System.out.print(<span class="character">&quot;</span><span class="character">: </span><span class="character">&quot;</span>);
+<span class="line-number">168</span>             response = keyboard.nextInt();
+<span class="line-number">169</span> 
+<span class="line-number">170</span>             <span class="keyword-directive">switch</span> (response)
+<span class="line-number">171</span>             {
+<span class="line-number">172</span>                 <span class="keyword-directive">case</span> 1:addPatron();<span class="keyword-directive">break</span>;
+<span class="line-number">173</span>                 <span class="keyword-directive">case</span> 2:searchEditPatron();<span class="keyword-directive">break</span>;
+<span class="line-number">174</span>                 <span class="keyword-directive">case</span> 3:listPatrons();<span class="keyword-directive">break</span>;
+<span class="line-number">175</span>                 <span class="keyword-directive">case</span> 4:patronFines();<span class="keyword-directive">break</span>;
+<span class="line-number">176</span>                 <span class="keyword-directive">case</span> 5:<span class="keyword-directive">break</span>;
+<span class="line-number">177</span>                 <span class="keyword-directive">default</span>: System.out.println(<span class="character">&quot;</span><span class="character">Invalid Option</span><span class="character">&quot;</span>);
+<span class="line-number">178</span>             }
+<span class="line-number">179</span> 
+<span class="line-number">180</span>         } <span class="keyword-directive">while</span> (response != 5); <span class="comment">//end do while</span>
+<span class="line-number">181</span>     }<span class="comment">//end of PatronOptions</span>
+<span class="line-number">182</span> 
+<span class="line-number">183</span>     <span class="comment">//***** addPatron ******************</span>
+<span class="line-number">184</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> addPatron()
+<span class="line-number">185</span>     {<span class="comment">//begin of addPatron</span>
+<span class="line-number">186</span>         System.out.println(<span class="character">&quot;</span><span class="ST1">\n</span><span class="character">You are at Add Patron.</span><span class="character">&quot;</span>);
+<span class="line-number">187</span>     }<span class="comment">//end of addPatron</span>
+<span class="line-number">188</span> 
+<span class="line-number">189</span>     <span class="comment">//***** addPatron ******************</span>
+<span class="line-number">190</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> searchEditPatron()
+<span class="line-number">191</span>     {<span class="comment">//begin of searchEditPatron</span>
+<span class="line-number">192</span>         System.out.println(<span class="character">&quot;</span><span class="ST1">\n</span><span class="character">You are at Search For And Edit Patron.</span><span class="character">&quot;</span>);
+<span class="line-number">193</span>     }<span class="comment">//end of searchEditPatron</span>
+<span class="line-number">194</span> 
+<span class="line-number">195</span>     <span class="comment">//***** addPatron ******************</span>
+<span class="line-number">196</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> listPatrons()
+<span class="line-number">197</span>     {<span class="comment">//begin of listPatrons</span>
+<span class="line-number">198</span>         System.out.println(<span class="character">&quot;</span><span class="ST1">\n</span><span class="character">You are at List All Patrons.</span><span class="character">&quot;</span>);
+<span class="line-number">199</span>     }<span class="comment">//end of listPatrons</span>
+<span class="line-number">200</span> 
+<span class="line-number">201</span>     <span class="comment">//***** addPatron ******************</span>
+<span class="line-number">202</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> patronFines()
+<span class="line-number">203</span>     {<span class="comment">//begin of patronFines</span>
+<span class="line-number">204</span>         System.out.println(<span class="character">&quot;</span><span class="ST1">\n</span><span class="character">You are at Check Patron&#39;s Fines.</span><span class="character">&quot;</span>);
+<span class="line-number">205</span>     }<span class="comment">//end of patronFines</span>
+<span class="line-number">206</span> 
+<span class="line-number">207</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> EditBookStatus()
+<span class="line-number">208</span>     {<span class="comment">//begin EditBookStatus</span>
+<span class="line-number">209</span>       System.out.println(<span class="character">&quot;</span><span class="character">This is the Edit Book Status method</span><span class="character">&quot;</span>
+<span class="line-number">210</span>               + <span class="character">&quot;</span><span class="character"> under the Edit Books method.</span><span class="character">&quot;</span>);
+<span class="line-number">211</span>     }<span class="comment">//end EditBookStatus</span>
+<span class="line-number">212</span> 
+<span class="line-number">213</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> EditBookCondition()
+<span class="line-number">214</span>     {<span class="comment">//begin EditBookCondition</span>
+<span class="line-number">215</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the Edit Books Condition</span><span class="character">&quot;</span>
+<span class="line-number">216</span>                 + <span class="character">&quot;</span><span class="character"> method under the Edit Books Method.</span><span class="character">&quot;</span>);
+<span class="line-number">217</span>     }<span class="comment">//end EditBookCondition</span>
+<span class="line-number">218</span>    
+<span class="line-number">219</span>    <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> PatronRecordsMenu()
+<span class="line-number">220</span>    {
+<span class="line-number">221</span>        System.out.println(<span class="character">&quot;</span><span class="character">You are at the Patron Records Menu</span><span class="character">&quot;</span>);
+<span class="line-number">222</span>    }
+<span class="line-number">223</span>    
+<span class="line-number">224</span>    <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> BookRecordsMenu()
+<span class="line-number">225</span>    {
+<span class="line-number">226</span>        System.out.println(<span class="character">&quot;</span><span class="character">You are at the Book Records Menu</span><span class="character">&quot;</span>);
+<span class="line-number">227</span>    }
+<span class="line-number">228</span>    
+<span class="line-number">229</span>    <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> CheckoutBook()
+<span class="line-number">230</span>    {
+<span class="line-number">231</span>        System.out.println(<span class="character">&quot;</span><span class="character">You are at the Checkout Books Menu</span><span class="character">&quot;</span>);
+<span class="line-number">232</span>    }
+<span class="line-number">233</span>    
+<span class="line-number">234</span>    <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> CheckinBook()
+<span class="line-number">235</span>    {
+<span class="line-number">236</span>        System.out.println(<span class="character">&quot;</span><span class="character">You are at the Checkin Books Menu</span><span class="character">&quot;</span>);
+<span class="line-number">237</span>    }
+<span class="line-number">238</span>    
+<span class="line-number">239</span>    <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> LibrarySettingsMenu()
+<span class="line-number">240</span>    {
+<span class="line-number">241</span>        System.out.println(<span class="character">&quot;</span><span class="character">You are at the Library Settings Menu</span><span class="character">&quot;</span>);
+<span class="line-number">242</span>    }
+<span class="line-number">243</span> 
+<span class="line-number">244</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">boolean</span> askPassword(Library library)
+<span class="line-number">245</span>     {
+<span class="line-number">246</span>         System.out.println(<span class="character">&quot;</span><span class="character">This is the method which asks for the password</span><span class="character">&quot;</span>);
+<span class="line-number">247</span>         System.out.println(<span class="character">&quot;</span><span class="character">It has not yet been implimented, so we&#39;ll just let you in</span><span class="character">&quot;</span>);
+<span class="line-number">248</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">249</span>     }
+<span class="line-number">250</span> 
+<span class="line-number">251</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> Book[] loadBooks()
+<span class="line-number">252</span>     {
+<span class="line-number">253</span>         Book[] books = <span class="keyword-directive">new</span> Book[2];
+<span class="line-number">254</span>         System.out.println(<span class="character">&quot;</span><span class="character">The Books will be loaded here!</span><span class="character">&quot;</span>);
+<span class="line-number">255</span>         <span class="keyword-directive">return</span> books;
+<span class="line-number">256</span>     }
+<span class="line-number">257</span> 
+<span class="line-number">258</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> Patron[] loadPatrons()
+<span class="line-number">259</span>     {
+<span class="line-number">260</span>         Patron[] patrons = <span class="keyword-directive">new</span> Patron[2];
+<span class="line-number">261</span>         System.out.println(<span class="character">&quot;</span><span class="character">The Patrons will be loaded here!</span><span class="character">&quot;</span>);
+<span class="line-number">262</span>         <span class="keyword-directive">return</span> patrons;
+<span class="line-number">263</span>     }
+<span class="line-number">264</span> 
+<span class="line-number">265</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> Library loadLibrary()
+<span class="line-number">266</span>     {
+<span class="line-number">267</span>         Library library = <span class="keyword-directive">new</span> Library();
+<span class="line-number">268</span>         System.out.println(<span class="character">&quot;</span><span class="character">The Library settings will be loaded here!</span><span class="character">&quot;</span>);
+<span class="line-number">269</span>         <span class="keyword-directive">return</span> library;
+<span class="line-number">270</span>     }
+<span class="line-number">271</span> 
+<span class="line-number">272</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> saveLibrary(Library library)
+<span class="line-number">273</span>     {
+<span class="line-number">274</span>         System.out.println(<span class="character">&quot;</span><span class="character">This method would save the library settings</span><span class="character">&quot;</span>);
+<span class="line-number">275</span>     }
+<span class="line-number">276</span> 
+<span class="line-number">277</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> savePatrons(Patron[] patrons)
+<span class="line-number">278</span>     {
+<span class="line-number">279</span>         System.out.println(<span class="character">&quot;</span><span class="character">This method would save the Patrons</span><span class="character">&quot;</span>);
+<span class="line-number">280</span>     }
+<span class="line-number">281</span> 
+<span class="line-number">282</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> saveBooks(Book[] books)
+<span class="line-number">283</span>     {
+<span class="line-number">284</span>         System.out.println(<span class="character">&quot;</span><span class="character">This method would save the books</span><span class="character">&quot;</span>);
+<span class="line-number">285</span>     }
+<span class="line-number">286</span> 
+<span class="line-number">287</span> } <span class="comment">//End Project_Library</span>
+<span class="line-number">288</span> 
+<span class="line-number">289</span> 
+</pre></body>
+</html>
