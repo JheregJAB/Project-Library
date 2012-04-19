@@ -26,7 +26,11 @@ public class Patron
     private double specialFine;
     private static int patronID;
     private int[] checkedBooks;
-   
+    
+    Patron()
+    {
+        isSet = false;
+    }
     public String getFirstName()
     {
         return firstName;
