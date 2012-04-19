@@ -182,7 +182,7 @@ public class Project_Library
             {
                 case 1:addPatron(patrons);break;
                 case 2:searchEditPatron();break;
-                case 3:listPatrons();break;
+                case 3:listPatrons(patrons);break;
                 case 4:patronFines();break;
                 case 5:break;
                 default: System.out.println("Invalid Option");
@@ -235,8 +235,6 @@ public class Project_Library
             System.out.println(": ");
             String email = keyboard.nextLine();
             patron.setEmail(email);           
-            double fine = 0;
-            double specialFine = 0;
             System.out.println("Enter patron's membership status - "
                 + "\nActive, Retired, Restricted, Suspended "
                 + "or Banned");
@@ -279,9 +277,27 @@ public class Project_Library
     }//end of searchEditPatron
 
     //***** addPatron ******************
-    public static void listPatrons()
+    public static void listPatrons(Patron[] patrons)
     {//begin of listPatrons
-        System.out.println("\nYou are at List All Patrons.");
+        for (int i =0; i < patrons.length; i++)
+        {
+            if (patrons[i].isSet())
+            {
+                System.out.println("Patron ID number: "+patrons[i].getPatronID());
+            System.out.println("Name: "+patrons[i].getFirstName()+" "+
+                    patrons[i].getLastName());
+            System.out.println("Address: "+patrons[i].getStreet()+", "+patrons[i].getCity()+
+                    ", "+patrons[i].getState()+", "+patrons[i].getZipCode());
+            System.out.println("Phone number: "+patrons[i].getPhone());
+            System.out.println("Email address: "+patrons[i].getEmail());
+            System.out.println("Membership status: "+patrons[i].getMembershipStatus());
+            System.out.println("Birthday: "+patrons[i].getBirthday());
+            System.out.println("\n");
+            }
+             else
+                continue;
+        }
+        
     }//end of listPatrons
 
     //***** addPatron ******************
@@ -346,7 +362,7 @@ public class Project_Library
         SAXBuilder builder = new SAXBuilder();
         String path = "/tmp/tmp_project_library.xml";
         File patronXMLFile = new File(path);
-        while (!patronXMLFile.exists());
+        while (! patronXMLFile.exists() )
         {
             path = askForFile(path,"Patron XML File");
             patronXMLFile = new File(path);
@@ -358,11 +374,13 @@ public class Project_Library
             List list = rootNode.getChildren("patron");
             
             Patron[] patrons = new Patron[list.size()+10];
+            //initialize entire patron array
+            for (int i = 0; i < patrons.length; i++)
+                patrons[i] = new Patron();
             for (int i = 0; i < list.size(); i++)
             {
                 Element node = (Element) list.get(i);
-                
-                patrons[i] = new Patron();
+                System.out.println("found patron: "+i);
                 patrons[i].setIsSet();
                 patrons[i].setFirstName(node.getChildText("firstname"));
                 patrons[i].setLastName(node.getChildText("lastname"));
@@ -381,9 +399,10 @@ public class Project_Library
                 
                 //set checkedbooks
                 String checkedBooksString = node.getChildText("checkedBooks");
-                String[] checkedBooksStringArray = checkedBooksString.split("-,-");
+                String[] checkedBooksStringArray = checkedBooksString.split(",");
                 int[] checkedBooks = new int[checkedBooksStringArray.length];
-                for (int checkedBook = 0; checkedBook<checkedBooksStringArray.length; checkedBook++)
+                int numtoskip = 0;
+                for (int checkedBook = 0; checkedBook < checkedBooksStringArray.length; checkedBook++)
                 {
                     if (checkedBooksStringArray[checkedBook].equals(""))
                         continue;
@@ -391,15 +410,18 @@ public class Project_Library
                         checkedBooks[checkedBook] = Integer.parseInt(checkedBooksStringArray[checkedBook]);
                 }
                 patrons[i].setCheckedBooks(checkedBooks);
+                System.out.println("Patron "+i+"/"+patrons.length);
+                System.out.println("isSet? = "+patrons[i].isSet());
+                
             }
+            return patrons;
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         } catch (JDOMException jdomex) {
             System.out.println(jdomex.getMessage());
         }
-        Patron[] patrons = new Patron[2];
-        System.out.println("The Patrons will be loaded here!");
-        return patrons;
+        return null;
+        
     }
 
     public static Library loadLibrary()
@@ -435,7 +457,6 @@ public class Project_Library
             int usedpatrons = 0;
             for (int i=0; i<patrons.length; i++)
             {
-                System.out.println("checking isSet for patron"+i+"/"+patrons.length);
                 if (patrons[i].isSet())
                     usedpatrons++;
             }
@@ -467,7 +488,9 @@ public class Project_Library
                 for (int bookID =0; bookID<checkedbooks.length; bookID++)
                 {
                     //savepatrons[i].addContent(new Element("checkedBooks"+bookID).setText(String.valueOf(checkedbooks[bookID])));
-                    checkedBooksString=checkedBooksString+"-,-"+String.valueOf(checkedbooks[i]);
+                    checkedBooksString=checkedBooksString+String.valueOf(checkedbooks[bookID]);
+                    if (bookID != checkedbooks.length-1)
+                        checkedBooksString = checkedBooksString+",";
                 }
                 savepatrons[i].addContent(new Element("checkedBooks").setText(checkedBooksString));
                 
