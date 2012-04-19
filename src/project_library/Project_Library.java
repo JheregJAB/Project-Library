@@ -380,7 +380,6 @@ public class Project_Library
             for (int i = 0; i < list.size(); i++)
             {
                 Element node = (Element) list.get(i);
-                System.out.println("found patron: "+i);
                 patrons[i].setIsSet();
                 patrons[i].setFirstName(node.getChildText("firstname"));
                 patrons[i].setLastName(node.getChildText("lastname"));
@@ -410,8 +409,6 @@ public class Project_Library
                         checkedBooks[checkedBook] = Integer.parseInt(checkedBooksStringArray[checkedBook]);
                 }
                 patrons[i].setCheckedBooks(checkedBooks);
-                System.out.println("Patron "+i+"/"+patrons.length);
-                System.out.println("isSet? = "+patrons[i].isSet());
                 
             }
             return patrons;
