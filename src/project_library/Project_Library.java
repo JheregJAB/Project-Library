@@ -29,7 +29,7 @@ public class Project_Library
     { // begin main
         DisplayWelcome();
         Library library = loadLibrary();
-        Patron[] patrons = loadTestPatron();
+        Patron[] patrons = loadPatrons();
         Book[] books = loadBooks();
         if ( askPassword(library) )
             MainMenu(library,patrons,books);
@@ -71,7 +71,7 @@ public class Project_Library
        next = keyboard.nextInt();
        switch (next)
        {//begin switch
-           case 1: PatronOptions(); break;
+           case 1: PatronOptions(patrons); break;
            case 2: BooksMenu(); break;
            case 3: CheckoutBook(); break;
            case 4: CheckinBook(); break;
@@ -158,7 +158,7 @@ public class Project_Library
 
 
         //***** PatronOptions ****************
-    public static void PatronOptions()
+    public static void PatronOptions(Patron[] patrons)
     {//begin of PatronOptions
         Scanner keyboard = new Scanner(System.in);
         int response;
@@ -180,7 +180,7 @@ public class Project_Library
 
             switch (response)
             {
-                case 1:addPatron();break;
+                case 1:addPatron(patrons);break;
                 case 2:searchEditPatron();break;
                 case 3:listPatrons();break;
                 case 4:patronFines();break;
@@ -192,9 +192,83 @@ public class Project_Library
     }//end of PatronOptions
 
     //***** addPatron ******************
-    public static void addPatron()
+    public static void addPatron(Patron[] patrons)
     {//begin of addPatron
-        System.out.println("\nYou are at Add Patron.");
+        Patron patron = new Patron();
+        Scanner keyboard = new Scanner(System.in);
+        int response;
+        do
+        {//begin of do while
+            System.out.println("\nPlease enter the following information "
+                    + "for the new patron: ");
+            System.out.println("Enter patron's first name.");
+            System.out.print(": ");
+            String firstName = keyboard.nextLine();
+            patron.setFirstName(firstName);
+            System.out.println("Enter patron's last name.");
+            System.out.print(": ");
+            String lastName = keyboard.nextLine();
+            patron.setLastName(lastName);
+            System.out.println("Enter patron's street address.");
+            System.out.print(": ");
+            String street = keyboard.nextLine();
+            patron.setStreet(street);
+            System.out.println("Enter patron's city.");
+            System.out.print(": ");
+            String city = keyboard.nextLine();
+            patron.setCity(city);
+            System.out.println("Enter patron's state.");
+            System.out.print(": ");
+            String state = keyboard.nextLine();
+            patron.setState(state);
+            System.out.println("Enter patron's zip code.");
+            System.out.print(": ");
+            String zipCode = keyboard.nextLine();
+            patron.setZipCode(zipCode);
+            System.out.println("Enter patron's phone number. "
+                + "\nUse format XXX-XXX-XXXX.");
+            System.out.print(": ");
+            String phone = keyboard.nextLine();
+            patron.setPhone(phone);
+            System.out.print("Enter patron's email address.");
+            System.out.println(": ");
+            String email = keyboard.nextLine();
+            patron.setEmail(email);           
+            double fine = 0;
+            double specialFine = 0;
+            System.out.println("Enter patron's membership status - "
+                + "\nActive, Retired, Restricted, Suspended "
+                + "or Banned");
+            System.out.print(": ");
+            String membershipStatus = keyboard.nextLine();
+            patron.setMembershipStatus(membershipStatus);
+            System.out.println("Enter patron's birthday. \nUse format"
+                + " mm/dd/yyyy.");
+            System.out.print(": ");
+            String birthday = keyboard.nextLine();
+            patron.setBirthday(birthday);
+            patron.setFine(0.0);
+            patron.setSpecialFine(0.0);
+            patron.setCheckedBooks(-1);
+            int patronID = findNextPatron(patrons);
+            patrons[patronID] = patron;
+           
+            System.out.println("\nThe new patron's information is as follows: ");
+            System.out.println("Patron ID number: "+patron.getPatronID());
+            System.out.println("Name: "+patron.getFirstName()+" "+
+                    patron.getLastName());
+            System.out.println("Address: "+patron.getStreet()+", "+patron.getCity()+
+                    ", "+patron.getState()+", "+patron.getZipCode());
+            System.out.println("Phone number: "+patron.getPhone());
+            System.out.println("Email address: "+patron.getEmail());
+            System.out.println("Membership status: "+patron.getMembershipStatus());
+            System.out.println("Birthday: "+patron.getBirthday());
+           
+            System.out.println("\nWould you like to add another patron?"
+                        + "\nEnter 1 for yes, 2 for no.");
+            System.out.print(": ");
+            response = keyboard.nextInt();       
+        }while(response == 1);  //end of do while
     }//end of addPatron
 
     //***** addPatron ******************
@@ -287,6 +361,7 @@ public class Project_Library
             {
                 Element node = (Element) list.get(i);
                 
+                patrons[i] = new Patron();
                 patrons[i].setIsSet();
                 patrons[i].setFirstName(node.getChildText("firstname"));
                 patrons[i].setLastName(node.getChildText("lastname"));
@@ -296,11 +371,11 @@ public class Project_Library
                 patrons[i].setZipCode(node.getChildText("zipCode"));
                 patrons[i].setPhone(node.getChildText("phone"));
                 patrons[i].setEmail(node.getChildText("email"));
-                patrons[i].setRestrictedTo(node.getChildText("restrictedTo"));
+                //patrons[i].setRestrictedTo(node.getChildText("restrictedTo"));
                 patrons[i].setMembershipStatus(node.getChildText("membershipStatus"));
                 patrons[i].setBirthday(node.getChildText("birthday"));
-                patrons[i].setFine(Double.parseDouble(node.getChildText("fine")));
-                patrons[i].setSpecialFine(Double.parseDouble(node.getChildText("specialFine")));
+                patrons[i].setFine(Double.parseDouble(node.getChildText("Fines")));
+                patrons[i].setSpecialFine(Double.parseDouble(node.getChildText("specialFines")));
                 patrons[i].setCheckedBooks(Integer.parseInt(node.getChildText("checkedBooks")));
             }
         } catch (IOException ioe) {
@@ -362,12 +437,20 @@ public class Project_Library
                 savepatrons[i].addContent(new Element("zipCode").setText(patrons[i].getZipCode()));
                 savepatrons[i].addContent(new Element("phone").setText(patrons[i].getPhone()));
                 savepatrons[i].addContent(new Element("email").setText(patrons[i].getEmail()));
-                savepatrons[i].addContent(new Element("restrictedTo").setText(patrons[i].getRestrictedTo()));
+                //savepatrons[i].addContent(new Element("restrictedTo").setText(patrons[i].getRestrictedTo()));
                 savepatrons[i].addContent(new Element("membershipStatus").setText(patrons[i].getMembershipStatus()));
                 savepatrons[i].addContent(new Element("Birthday").setText(patrons[i].getBirthday()));
                 savepatrons[i].addContent(new Element("Fines").setText(String.valueOf(patrons[i].getFine())));
                 savepatrons[i].addContent(new Element("specialFines").setText(String.valueOf(patrons[i].getSpecialFine())));
-                savepatrons[i].addContent(new Element("checkedBooks").setText(String.valueOf(patrons[i].getCheckedBooks())));
+                
+                
+                //save the checked books
+                int[] checkedbooks = patrons[i].getCheckedBooks();
+                for (int bookID =0; bookID<checkedbooks.length; bookID++)
+                {
+                    savepatrons[i].addContent(new Element("checkedBooks"+bookID).setText(String.valueOf(checkedbooks[bookID])));
+                }
+                //savepatrons[bookID].addContent(new Element("checkedBooks").setText(String.valueOf(patrons[bookID].getCheckedBooks())));
                 
                 //add the now-finished xml object to the document
                 doc.getRootElement().addContent(savepatrons[i]);
@@ -403,6 +486,7 @@ public class Project_Library
         Patron[] patrons = new Patron[2];
         for (int i = 0; i<patrons.length;i++)
         {
+            patrons[i] = new Patron();
             patrons[i].setIsSet();
             patrons[i].setFirstName("Jacob");
             patrons[i].setLastName("Burkamper");
@@ -412,8 +496,8 @@ public class Project_Library
             patrons[i].setZipCode("61234");
             patrons[i].setPhone("555-555-5555");
             patrons[i].setEmail("jacob.burkamper@gmail.com");
-            patrons[i].setRestrictedTo("none");
-            patrons[i].setMembershipStatus("member");
+            //patrons[i].setRestrictedTo("none");
+            patrons[i].setMembershipStatus("Active");
             patrons[i].setBirthday("05641234");
             patrons[i].setFine(0.0);
             patrons[i].setSpecialFine(0.0);
