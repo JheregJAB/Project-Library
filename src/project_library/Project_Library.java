@@ -199,6 +199,7 @@ public class Project_Library
         int response;
         do
         {//begin of do while
+            patron.setIsSet();
             System.out.println("\nPlease enter the following information "
                     + "for the new patron: ");
             System.out.println("Enter patron's first name.");
