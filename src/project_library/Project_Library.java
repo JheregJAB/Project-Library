@@ -377,7 +377,20 @@ public class Project_Library
                 patrons[i].setBirthday(node.getChildText("birthday"));
                 patrons[i].setFine(Double.parseDouble(node.getChildText("Fines")));
                 patrons[i].setSpecialFine(Double.parseDouble(node.getChildText("specialFines")));
-                patrons[i].setCheckedBooks(Integer.parseInt(node.getChildText("checkedBooks")));
+                //patrons[i].setCheckedBooks(Integer.parseInt(node.getChildText("checkedBooks")));
+                
+                //set checkedbooks
+                String checkedBooksString = node.getChildText("checkedBooks");
+                String[] checkedBooksStringArray = checkedBooksString.split("-,-");
+                int[] checkedBooks = new int[checkedBooksStringArray.length];
+                for (int checkedBook = 0; checkedBook<checkedBooksStringArray.length; checkedBook++)
+                {
+                    if (checkedBooksStringArray[checkedBook].equals(""))
+                        continue;
+                    else
+                        checkedBooks[checkedBook] = Integer.parseInt(checkedBooksStringArray[checkedBook]);
+                }
+                patrons[i].setCheckedBooks(checkedBooks);
             }
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
@@ -421,8 +434,11 @@ public class Project_Library
             //get the total number of used patrons in the array
             int usedpatrons = 0;
             for (int i=0; i<patrons.length; i++)
+            {
+                System.out.println("checking isSet for patron"+i+"/"+patrons.length);
                 if (patrons[i].isSet())
                     usedpatrons++;
+            }
             
             //create an XML object for each patron, assign all its values
             Element[] savepatrons = new Element[usedpatrons];
@@ -447,11 +463,13 @@ public class Project_Library
                 
                 //save the checked books
                 int[] checkedbooks = patrons[i].getCheckedBooks();
+                String checkedBooksString = "";
                 for (int bookID =0; bookID<checkedbooks.length; bookID++)
                 {
-                    savepatrons[i].addContent(new Element("checkedBooks"+bookID).setText(String.valueOf(checkedbooks[bookID])));
+                    //savepatrons[i].addContent(new Element("checkedBooks"+bookID).setText(String.valueOf(checkedbooks[bookID])));
+                    checkedBooksString=checkedBooksString+"-,-"+String.valueOf(checkedbooks[i]);
                 }
-                //savepatrons[bookID].addContent(new Element("checkedBooks").setText(String.valueOf(patrons[bookID].getCheckedBooks())));
+                savepatrons[i].addContent(new Element("checkedBooks").setText(checkedBooksString));
                 
                 //add the now-finished xml object to the document
                 doc.getRootElement().addContent(savepatrons[i]);
