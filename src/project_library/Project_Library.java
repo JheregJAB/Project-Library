@@ -181,7 +181,7 @@ public class Project_Library
             switch (response)
             {
                 case 1:addPatron(patrons);break;
-                case 2:searchEditPatron();break;
+                case 2:searchEditPatron(patrons);break;
                 case 3:listPatrons(patrons);break;
                 case 4:patronFines();break;
                 case 5:break;
@@ -271,7 +271,7 @@ public class Project_Library
     }//end of addPatron
 
     //***** addPatron ******************
-    public static void searchEditPatron()
+    public static void searchEditPatron(Patron[] patrons)
     {//begin of searchEditPatron
         System.out.println("\nYou are at Search For And Edit Patron.");
     }//end of searchEditPatron
