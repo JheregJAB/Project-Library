@@ -29,7 +29,7 @@ public class Project_Library
     { // begin main
         DisplayWelcome();
         Library library = loadLibrary();
-        Patron[] patrons = loadPatrons();
+        Patron[] patrons = loadTestPatron();
         Book[] books = loadBooks();
         if ( askPassword(library) )
             MainMenu(library,patrons,books);
@@ -400,21 +400,21 @@ public class Project_Library
     
     public static Patron[] loadTestPatron()
     {
-        Patron[] patrons = new Patron[1];
+        Patron[] patrons = new Patron[2];
         for (int i = 0; i<patrons.length;i++)
         {
             patrons[i].setIsSet();
             patrons[i].setFirstName("Jacob");
             patrons[i].setLastName("Burkamper");
-            patrons[i].setStreet("2425 Shaker Ct.");
-            patrons[i].setCity("Bettendorf");
-            patrons[i].setState("IA");
-            patrons[i].setZipCode("52722");
-            patrons[i].setPhone("630-621-8887");
+            patrons[i].setStreet("123 Sesame Street");
+            patrons[i].setCity("Nowhere");
+            patrons[i].setState("IL");
+            patrons[i].setZipCode("61234");
+            patrons[i].setPhone("555-555-5555");
             patrons[i].setEmail("jacob.burkamper@gmail.com");
             patrons[i].setRestrictedTo("none");
             patrons[i].setMembershipStatus("member");
-            patrons[i].setBirthday("09071991");
+            patrons[i].setBirthday("05641234");
             patrons[i].setFine(0.0);
             patrons[i].setSpecialFine(0.0);
             patrons[i].setCheckedBooks(loadTestBookIDArray());
