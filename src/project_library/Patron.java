@@ -19,7 +19,7 @@ public class Patron
     private String zipCode;
     private String phone;
     private String email;
-    private String restrictedTo;
+    //private String restrictedTo;
     private String membershipStatus;
     private String birthday;
     private double fine;
@@ -31,6 +31,7 @@ public class Patron
     {
         isSet = false;
     }
+    
     public String getFirstName()
     {
         return firstName;
@@ -71,10 +72,10 @@ public class Patron
         return email;
     }
    
-    public String getRestrictedTo()
+    /*public String getRestrictedTo()
     {
         return restrictedTo;
-    }
+    }*/
    
     public String getMembershipStatus()
     {
@@ -146,10 +147,10 @@ public class Patron
         email = newValue;
     }
    
-    public void setRestrictedTo(String newValue)
+    /*public void setRestrictedTo(String newValue)
     {
         restrictedTo = newValue;
-    }
+    }*/
    
     public void setBirthday(String newValue)
     {

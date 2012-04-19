@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patronfile>
+  <patron id="0">
+    <firstname>Jacob</firstname>
+    <lastname>Burkamper</lastname>
+    <street>123 Sesame Street</street>
+    <city>Nowhere</city>
+    <state>IL</state>
+    <zipCode>61234</zipCode>
+    <phone>555-555-5555</phone>
+    <email>jacob.burkamper@gmail.com</email>
+    <membershipStatus>Active</membershipStatus>
+    <Birthday />
+    <Fines>0.0</Fines>
+    <specialFines>0.0</specialFines>
+    <checkedBooks>0,0,0,1,2</checkedBooks>
+  </patron>
+  <patron id="1">
+    <firstname>Jacob</firstname>
+    <lastname>Burkamper</lastname>
+    <street>123 Sesame Street</street>
+    <city>Nowhere</city>
+    <state>IL</state>
+    <zipCode>61234</zipCode>
+    <phone>555-555-5555</phone>
+    <email>jacob.burkamper@gmail.com</email>
+    <membershipStatus>Active</membershipStatus>
+    <Birthday />
+    <Fines>0.0</Fines>
+    <specialFines>0.0</specialFines>
+    <checkedBooks>0,0,0,1,2</checkedBooks>
+  </patron>
+  <patron id="2">
+    <firstname>Joe</firstname>
+    <lastname>Bob</lastname>
+    <street>21 random drive</street>
+    <city>happyville, il</city>
+    <state>il</state>
+    <zipCode>23456</zipCode>
+    <phone>123-456-7890</phone>
+    <email>joebob@happyville.com</email>
+    <membershipStatus>Active</membershipStatus>
+    <Birthday />
+    <Fines>0.0</Fines>
+    <specialFines>0.0</specialFines>
+    <checkedBooks>-1</checkedBooks>
+  </patron>
+</patronfile>
+
