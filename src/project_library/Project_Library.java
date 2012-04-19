@@ -7,6 +7,17 @@
 
 package project_library;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.File;
+import java.util.List;
+import java.io.IOException;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 /**
  *
  * @author jacob
@@ -257,6 +268,46 @@ public class Project_Library
 
     public static Patron[] loadPatrons()
     {
+        SAXBuilder builder = new SAXBuilder();
+        String path = "/tmp/tmp_project_library.xml";
+        File patronXMLFile = new File(path);
+        while (!patronXMLFile.exists());
+        {
+            path = askForFile(path,"Patron XML File");
+            patronXMLFile = new File(path);
+        }
+        
+        try {
+            Document document = (Document) builder.build(patronXMLFile);
+            Element rootNode = document.getRootElement();
+            List list = rootNode.getChildren("patron");
+            
+            Patron[] patrons = new Patron[list.size()+10];
+            for (int i = 0; i < list.size(); i++)
+            {
+                Element node = (Element) list.get(i);
+                
+                patrons[i].setIsSet();
+                patrons[i].setFirstName(node.getChildText("firstname"));
+                patrons[i].setLastName(node.getChildText("lastname"));
+                patrons[i].setStreet(node.getChildText("street"));
+                patrons[i].setCity(node.getChildText("city"));
+                patrons[i].setState(node.getChildText("state"));
+                patrons[i].setZipCode(node.getChildText("zipCode"));
+                patrons[i].setPhone(node.getChildText("phone"));
+                patrons[i].setEmail(node.getChildText("email"));
+                patrons[i].setRestrictedTo(node.getChildText("restrictedTo"));
+                patrons[i].setMembershipStatus(node.getChildText("membershipStatus"));
+                patrons[i].setBirthday(node.getChildText("birthday"));
+                patrons[i].setFine(Double.parseDouble(node.getChildText("fine")));
+                patrons[i].setSpecialFine(Double.parseDouble(node.getChildText("specialFine")));
+                patrons[i].setCheckedBooks(Integer.parseInt(node.getChildText("checkedBooks")));
+            }
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        } catch (JDOMException jdomex) {
+            System.out.println(jdomex.getMessage());
+        }
         Patron[] patrons = new Patron[2];
         System.out.println("The Patrons will be loaded here!");
         return patrons;
@@ -276,12 +327,63 @@ public class Project_Library
 
     public static void savePatrons(Patron[] patrons)
     {
-        System.out.println("This method would save the Patrons");
+        try {
+            //create the XML document
+            Element patronfile = new Element("patronfile");
+            Document doc = new Document(patronfile);
+            doc.setRootElement(patronfile);
+            
+            //get the total number of used patrons in the array
+            int usedpatrons = 0;
+            for (int i=0; i<patrons.length; i++)
+                if (patrons[i].isSet())
+                    usedpatrons++;
+            
+            //create an XML object for each patron, assign all its values
+            Element[] savepatrons = new Element[usedpatrons];
+            for (int i=0; i<savepatrons.length;i++)
+            {//begin for each patron
+                savepatrons[i] = new Element("patron");
+                savepatrons[i].setAttribute(new Attribute("id",String.valueOf(i)));
+                savepatrons[i].addContent(new Element("firstname").setText(patrons[i].getFirstName()));
+                savepatrons[i].addContent(new Element("lastname").setText(patrons[i].getLastName()));
+                savepatrons[i].addContent(new Element("street").setText(patrons[i].getStreet()));
+                savepatrons[i].addContent(new Element("city").setText(patrons[i].getCity()));
+                savepatrons[i].addContent(new Element("state").setText(patrons[i].getState()));
+                savepatrons[i].addContent(new Element("zipCode").setText(patrons[i].getZipCode()));
+                savepatrons[i].addContent(new Element("phone").setText(patrons[i].getPhone()));
+                savepatrons[i].addContent(new Element("email").setText(patrons[i].getEmail()));
+                savepatrons[i].addContent(new Element("restrictedTo").setText(patrons[i].getRestrictedTo()));
+                savepatrons[i].addContent(new Element("membershipStatus").setText(patrons[i].getMembershipStatus()));
+                savepatrons[i].addContent(new Element("Birthday").setText(patrons[i].getBirthday()));
+                savepatrons[i].addContent(new Element("Fines").setText(String.valueOf(patrons[i].getFine())));
+                savepatrons[i].addContent(new Element("specialFines").setText(String.valueOf(patrons[i].getSpecialFine())));
+                savepatrons[i].addContent(new Element("checkedBooks").setText(String.valueOf(patrons[i].getCheckedBooks())));
+                
+                //add the now-finished xml object to the document
+                doc.getRootElement().addContent(savepatrons[i]);
+            }//end for each patron
+            
+            //write the file
+            XMLOutputter xmlOutput = new XMLOutputter();            
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(doc, new FileWriter("/tmp/tmp_project-library.xml"));
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        }
     }
 
     public static void saveBooks(Book[] books)
     {
         System.out.println("This method would save the books");
+    }
+    
+    public static String askForFile(String path, String filename)
+    {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Unable to find file at: "+path);
+        System.out.println("Please input the path for: "+filename);
+        System.out.print(": ");
     }
 
 } //End Project_Library
