@@ -327,6 +327,15 @@ public class Project_Library
 
     public static void savePatrons(Patron[] patrons)
     {
+        //get the file as needed.
+        String path = "/tmp/tmp_project_library.xml";
+        File patronXMLFile = new File(path);
+        while (!patronXMLFile.exists())
+        {
+            path = askForFile(path,"Patron XML File");
+            patronXMLFile = new File(path);
+        }
+        
         try {
             //create the XML document
             Element patronfile = new Element("patronfile");
@@ -367,7 +376,7 @@ public class Project_Library
             //write the file
             XMLOutputter xmlOutput = new XMLOutputter();            
             xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(doc, new FileWriter("/tmp/tmp_project-library.xml"));
+            xmlOutput.output(doc, new FileWriter(path));
         } catch (IOException io) {
             System.out.println(io.getMessage());
         }
@@ -384,6 +393,58 @@ public class Project_Library
         System.out.println("Unable to find file at: "+path);
         System.out.println("Please input the path for: "+filename);
         System.out.print(": ");
+        
+        String response = userInput.nextLine();
+        return response;
+    }
+    
+    public static Patron[] loadTestPatron()
+    {
+        Patron[] patrons = new Patron[1];
+        for (int i = 0; i<patrons.length;i++)
+        {
+            patrons[i].setIsSet();
+            patrons[i].setFirstName("Jacob");
+            patrons[i].setLastName("Burkamper");
+            patrons[i].setStreet("2425 Shaker Ct.");
+            patrons[i].setCity("Bettendorf");
+            patrons[i].setState("IA");
+            patrons[i].setZipCode("52722");
+            patrons[i].setPhone("630-621-8887");
+            patrons[i].setEmail("jacob.burkamper@gmail.com");
+            patrons[i].setRestrictedTo("none");
+            patrons[i].setMembershipStatus("member");
+            patrons[i].setBirthday("09071991");
+            patrons[i].setFine(0.0);
+            patrons[i].setSpecialFine(0.0);
+            patrons[i].setCheckedBooks(loadTestBookIDArray());
+        }
+        return patrons;
+    }
+    
+    public static int[] loadTestBookIDArray()
+    {
+        int[] bookIDs = new int[3];
+        bookIDs[0]=0;
+        bookIDs[1]=1;
+        bookIDs[2]=2;
+        return bookIDs;
+    }
+    
+    public static int findNextPatron(Patron[] patrons)
+    {
+        int NextID=-1;
+        for (int i = 0; i < patrons.length; i++)
+        {
+            if (patrons[i].isSet())
+                continue;
+            else
+            {
+                if (NextID == -1)
+                    NextID = i;
+            }
+        }
+        return NextID;
     }
 
 } //End Project_Library
