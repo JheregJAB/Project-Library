@@ -117,6 +117,122 @@ public class Project_Library
 
 
     }//end BooksMenu
+    
+    //***** addBook ******************
+    public static void addBook(Book[] books)
+    {//begin of addBook
+       
+        Book newBook = new Book();
+        Scanner keyboard = new Scanner(System.in);
+        int response;
+        do
+        {//begin outer do while
+            //set book ID number
+            int bookID = findNextBook(books);
+            newBook.setBookID(bookID);
+           
+            //prompt user to input book information
+            System.out.println("\nPlease enter the following information "
+                    + "for the new book: ");
+           
+            //set title, author, summary, condition, and purchase price
+            System.out.println("Title");
+            System.out.print(": ");
+            String title = keyboard.nextLine();
+            newBook.setTitle(title);
+            System.out.println("Author");
+            System.out.print(": ");
+            String author = keyboard.nextLine();
+            newBook.setAuthor(author);
+            System.out.println("Book Summary");
+            System.out.print(": ");
+            String summary = keyboard.nextLine();
+            newBook.setSummary(summary);
+            System.out.println("Condition (new, fair, or poor");
+            System.out.print(": ");
+            String condition = keyboard.nextLine();
+            newBook.setCondition(condition);
+            System.out.println("Purchase Price");
+            System.out.print(": ");
+            Double price = keyboard.nextDouble();
+            newBook.setPrice(price);
+           
+            //set age restricted or not      
+            int restricted;
+            boolean yesNoRestricted = true;
+            do
+            {//begin do while
+                System.out.print("Restricted to over 18 (enter 1 for yes, 2 for no)");
+                System.out.println(": ");
+                restricted = keyboard.nextInt();
+                switch (restricted)
+                {//begin of switch
+                    case 1: yesNoRestricted = true; break;
+                    case 2: yesNoRestricted = false; break;
+                    default: System.out.println("Invalid Option");
+                }//end of switch
+            }while (restricted != 1 || restricted != 2); //end do while
+            newBook.setRestricted(yesNoRestricted);           
+           
+            //set fiction or non-fiction
+            int fiction;
+            boolean yesNoFiction = false;
+            do
+            {//begin do while
+                System.out.print("Fiction or Non-Fiction (enter 1 for Fiction, "
+                        + "2 for Non-Fiction");
+                System.out.println(": ");
+                fiction = keyboard.nextInt();
+                switch (fiction)
+                {//begin of switch
+                    case 1: yesNoFiction = true; break;
+                    case 2: yesNoFiction = false; break;
+                    default: System.out.println("Invalid Option");
+                }//end of switch
+            }while (fiction != 1 || fiction != 2); //end do while
+            newBook.setFiction(yesNoFiction);
+           
+            //set status, checkedOutBy and checkOutDate to default
+            //values for new books
+            newBook.setStatus("checked in");
+            newBook.setCheckedOutBy(-1);
+            newBook.setCheckOutDate("empty");
+            
+            //save to the books array
+            books[bookID] = newBook;
+           
+            //Print out new book information
+            System.out.println("\nThe new book's information is as follows: ");
+            System.out.println("Book ID number: "+newBook.getBookID());
+            System.out.println("Title: "+newBook.getTitle());
+            System.out.println("Author: "+newBook.getAuthor());
+            System.out.println("Summary: "+newBook.getDescription());
+            System.out.println("Condition: "+newBook.getCondition());
+            System.out.println("Price: "+newBook.getPrice());
+            System.out.print("Restricted to over 18: ");
+            if(newBook.Restricted())
+                System.out.println("yes");
+            else
+                System.out.println("no");
+            System.out.print("Fiction or Non-Fiction: ");
+            if(newBook.Fiction())
+                System.out.println("Fiction");
+            else
+                System.out.println("Non-Fiction");
+
+            //ask if user wants to add another book
+            do
+            {//begin inner do while
+                System.out.println("\nWould you like to add another book?"
+                            + "\nEnter 1 for yes, 2 for no.");
+                System.out.print(": ");
+                response = keyboard.nextInt();
+                if (response != 1 || response !=2)
+                    System.out.println("Invalid Option");
+            }while (restricted != 1 || restricted != 2); //end inner do while
+           
+        }while(response == 1);  //end outer do while
+    }//end of addBook 
 
         public static void EditBooks()
     {//begin EditBooks
@@ -662,6 +778,22 @@ public class Project_Library
         for (int i = 0; i < patrons.length; i++)
         {
             if (patrons[i].isSet())
+                continue;
+            else
+            {
+                if (NextID == -1)
+                    NextID = i;
+            }
+        }
+        return NextID;
+    }
+    
+        public static int findNextBook(Book[] books)
+    {
+        int NextID=-1;
+        for (int i = 0; i < books.length; i++)
+        {
+            if (books[i].isSet())
                 continue;
             else
             {
