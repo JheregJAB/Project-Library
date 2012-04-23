@@ -171,7 +171,7 @@ public class Project_Library
             System.out.println("Please enter the number of the option"
                     + " you would like to select.\n");
             System.out.println("[1] Add Patron");
-            System.out.println("[2] Search For And Edit Patron");
+            System.out.println("[2] Edit Patron");
             System.out.println("[3] List All Patrons");
             System.out.println("[4] Check Patron's Fines");
             System.out.println("[5] Exit To Main Menu\n");
@@ -181,7 +181,7 @@ public class Project_Library
             switch (response)
             {
                 case 1:addPatron(patrons);break;
-                case 2:searchEditPatron(patrons);break;
+                case 2:editPatrons(patrons);break;
                 case 3:listPatrons(patrons);break;
                 case 4:patronFines();break;
                 case 5:break;
@@ -231,8 +231,8 @@ public class Project_Library
             System.out.print(": ");
             String phone = keyboard.nextLine();
             patron.setPhone(phone);
-            System.out.print("Enter patron's email address.");
-            System.out.println(": ");
+            System.out.println("Enter patron's email address.");
+            System.out.print(": ");
             String email = keyboard.nextLine();
             patron.setEmail(email);           
             System.out.println("Enter patron's membership status - "
@@ -271,9 +271,109 @@ public class Project_Library
     }//end of addPatron
 
     //***** addPatron ******************
-    public static void searchEditPatron(Patron[] patrons)
+    public static void editPatrons(Patron[] patrons)
     {//begin of searchEditPatron
-        System.out.println("\nYou are at Search For And Edit Patron.");
+        Scanner keyboard = new Scanner(System.in);
+        int ID=100;
+        int response;
+
+        //display all patrons
+        for (int id=0; id<patrons.length;id++)
+        {
+            if (patrons[id].isSet())
+                System.out.println("ID: "+id+" - "+patrons[id].getFirstName()+
+                        " "+patrons[id].getLastName());
+        }
+
+        //actually edit stuff
+        do
+        {//begin do
+        System.out.println("Enter the Patrons ID who you would like to edit.");
+        System.out.println("To go back to the Patrons option menu enter [-1]");
+        System.out.print(": ");
+        String patronID = keyboard.nextLine();
+        ID = Integer.parseInt(patronID);
+        if (ID==-1)
+            break;
+        do
+            {//begin inner do
+                System.out.println("Enter what you would like to edit.");
+                System.out.println("[1] to edit address.");
+                System.out.println("[2] to edit phone number.");
+                System.out.println("[3] to edit email address.");
+                System.out.println("[4] to edit membership status.");
+                System.out.println("[5] to edit City.");
+                System.out.println("[6] to edit State.");
+                System.out.println("[7] to edit Zipcode.");
+                System.out.println("[8] to edit First Name.");
+                System.out.println("[9] to edit Last Name.");
+                System.out.println("[10] to edit Birthday.");
+                System.out.println("[0] to Finish editing Patron Info.");
+                System.out.print(": ");
+                response = keyboard.nextInt();
+                keyboard.nextLine(); //absorb extra newline.
+                switch (response)
+                {//begin switch
+                    case 1: {System.out.println("Enter new address"); System.out.print(": ");
+                             String street = keyboard.nextLine();
+                             patrons[ID].setStreet(street);break;}
+                    case 2: {System.out.println("Enter new Phone number.");System.out.print(": ");
+                             String phone = keyboard.nextLine();
+                             patrons[ID].setPhone(phone);break;}
+                    case 3: {System.out.println("Enter new email address");System.out.print(": ");
+                             String email = keyboard.nextLine();
+                             patrons[ID].setEmail(email);break;}
+                    case 4:{System.out.println("Enter new memebership status");System.out.print(": ");
+                             String membershipStatus = keyboard.nextLine();
+                             patrons[ID].setMembershipStatus(membershipStatus);break;}
+                                
+                    case 5:{System.out.println("Enter new City");
+                            System.out.print(": ");
+                             String city = keyboard.nextLine();
+                             patrons[ID].setCity(city);break;}
+                    case 6:{System.out.println("Enter new State");System.out.print(": ");
+                             String state = keyboard.nextLine();
+                             patrons[ID].setState(state);break;}
+                    case 7:{System.out.println("Enter new Zipcode");System.out.print(": ");
+                             String zipcode = keyboard.nextLine();
+                             patrons[ID].setZipCode(zipcode);break;}
+                    case 8:{System.out.println("Enter new First Name");System.out.print(": ");
+                             String firstName = keyboard.nextLine();
+                             patrons[ID].setFirstName(firstName);break;}
+                    case 9: {System.out.println("Enter new Last Name");System.out.print(": ");
+                             String lastName = keyboard.nextLine();
+                             patrons[ID].setLastName(lastName);break;}
+                    case 10: {System.out.println("Enter new Birthday");System.out.print(": ");
+                             String birthday = keyboard.nextLine();
+                             patrons[ID].setBirthday(birthday);break;}
+                    default: System.out.println("Invalid Option");
+                }//end switch
+
+            }//end inner do
+                while(response!=0);
+
+        System.out.println("The following is the new information for the patron:");
+        System.out.println("\nThe new patron's information is as follows: ");
+            System.out.println("Patron ID number: "+patrons[ID].getPatronID());
+            System.out.println("Name: "+patrons[ID].getFirstName()+" "+
+                    patrons[ID].getLastName());
+            System.out.println("Address: "+patrons[ID].getStreet()
+                    +", "+patrons[ID].getCity()+
+                    ", "+patrons[ID].getState()+
+                    ", "+patrons[ID].getZipCode());
+            System.out.println("Phone number: "+patrons[ID].getPhone());
+            System.out.println("Email address: "+patrons[ID].getEmail());
+            System.out.println("Membership status: "
+                    +patrons[ID].getMembershipStatus());
+            System.out.println("Birthday: "+patrons[ID].getBirthday());
+            System.out.print(": ");
+
+
+
+        }//end Do
+        while(ID!=-1);
+
+        ;
     }//end of searchEditPatron
 
     //***** addPatron ******************
@@ -283,7 +383,7 @@ public class Project_Library
         {
             if (patrons[i].isSet())
             {
-                System.out.println("Patron ID number: "+patrons[i].getPatronID());
+                System.out.println("Patron ID number: "+i);
             System.out.println("Name: "+patrons[i].getFirstName()+" "+
                     patrons[i].getLastName());
             System.out.println("Address: "+patrons[i].getStreet()+", "+patrons[i].getCity()+
@@ -360,7 +460,7 @@ public class Project_Library
     public static Patron[] loadPatrons()
     {
         SAXBuilder builder = new SAXBuilder();
-        String path = "/tmp/tmp_project_library.xml";
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\tmp_project_library.xml";
         File patronXMLFile = new File(path);
         while (! patronXMLFile.exists() )
         {
@@ -391,7 +491,7 @@ public class Project_Library
                 patrons[i].setEmail(node.getChildText("email"));
                 //patrons[i].setRestrictedTo(node.getChildText("restrictedTo"));
                 patrons[i].setMembershipStatus(node.getChildText("membershipStatus"));
-                patrons[i].setBirthday(node.getChildText("birthday"));
+                patrons[i].setBirthday(node.getChildText("Birthday"));
                 patrons[i].setFine(Double.parseDouble(node.getChildText("Fines")));
                 patrons[i].setSpecialFine(Double.parseDouble(node.getChildText("specialFines")));
                 //patrons[i].setCheckedBooks(Integer.parseInt(node.getChildText("checkedBooks")));
@@ -436,8 +536,9 @@ public class Project_Library
     public static void savePatrons(Patron[] patrons)
     {
         //get the file as needed.
-        String path = "/tmp/tmp_project_library.xml";
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\tmp_project_library.xml";
         File patronXMLFile = new File(path);
+        //if the file doesn't exist, ask for a path
         while (!patronXMLFile.exists())
         {
             path = askForFile(path,"Patron XML File");
@@ -452,47 +553,48 @@ public class Project_Library
             
             //get the total number of used patrons in the array
             int usedpatrons = 0;
-            for (int i=0; i<patrons.length; i++)
+            for (int id=0; id<patrons.length; id++)
             {
-                if (patrons[i].isSet())
+                if (patrons[id].isSet())
                     usedpatrons++;
             }
             
             //create an XML object for each patron, assign all its values
             Element[] savepatrons = new Element[usedpatrons];
-            for (int i=0; i<savepatrons.length;i++)
+            for (int id=0; id<savepatrons.length;id++)
             {//begin for each patron
-                savepatrons[i] = new Element("patron");
-                savepatrons[i].setAttribute(new Attribute("id",String.valueOf(i)));
-                savepatrons[i].addContent(new Element("firstname").setText(patrons[i].getFirstName()));
-                savepatrons[i].addContent(new Element("lastname").setText(patrons[i].getLastName()));
-                savepatrons[i].addContent(new Element("street").setText(patrons[i].getStreet()));
-                savepatrons[i].addContent(new Element("city").setText(patrons[i].getCity()));
-                savepatrons[i].addContent(new Element("state").setText(patrons[i].getState()));
-                savepatrons[i].addContent(new Element("zipCode").setText(patrons[i].getZipCode()));
-                savepatrons[i].addContent(new Element("phone").setText(patrons[i].getPhone()));
-                savepatrons[i].addContent(new Element("email").setText(patrons[i].getEmail()));
-                //savepatrons[i].addContent(new Element("restrictedTo").setText(patrons[i].getRestrictedTo()));
-                savepatrons[i].addContent(new Element("membershipStatus").setText(patrons[i].getMembershipStatus()));
-                savepatrons[i].addContent(new Element("Birthday").setText(patrons[i].getBirthday()));
-                savepatrons[i].addContent(new Element("Fines").setText(String.valueOf(patrons[i].getFine())));
-                savepatrons[i].addContent(new Element("specialFines").setText(String.valueOf(patrons[i].getSpecialFine())));
+                savepatrons[id] = new Element("patron");
+                savepatrons[id].setAttribute(new Attribute("id",String.valueOf(id)));
+                savepatrons[id].addContent(new Element("firstname").setText(patrons[id].getFirstName()));
+                savepatrons[id].addContent(new Element("lastname").setText(patrons[id].getLastName()));
+                savepatrons[id].addContent(new Element("street").setText(patrons[id].getStreet()));
+                savepatrons[id].addContent(new Element("city").setText(patrons[id].getCity()));
+                savepatrons[id].addContent(new Element("state").setText(patrons[id].getState()));
+                savepatrons[id].addContent(new Element("zipCode").setText(patrons[id].getZipCode()));
+                savepatrons[id].addContent(new Element("phone").setText(patrons[id].getPhone()));
+                savepatrons[id].addContent(new Element("email").setText(patrons[id].getEmail()));
+                savepatrons[id].addContent(new Element("membershipStatus").setText(patrons[id].getMembershipStatus()));
+                savepatrons[id].addContent(new Element("Birthday").setText(patrons[id].getBirthday()));
+                savepatrons[id].addContent(new Element("Fines").setText(String.valueOf(patrons[id].getFine())));
+                savepatrons[id].addContent(new Element("specialFines").setText(String.valueOf(patrons[id].getSpecialFine())));
                 
                 
                 //save the checked books
-                int[] checkedbooks = patrons[i].getCheckedBooks();
+                int[] checkedbooks = patrons[id].getCheckedBooks();
                 String checkedBooksString = "";
                 for (int bookID =0; bookID<checkedbooks.length; bookID++)
                 {
-                    //savepatrons[i].addContent(new Element("checkedBooks"+bookID).setText(String.valueOf(checkedbooks[bookID])));
+                    //creates a comma-delimited list of the checked books array
                     checkedBooksString=checkedBooksString+String.valueOf(checkedbooks[bookID]);
+                    //do not put an extra comma at the end
                     if (bookID != checkedbooks.length-1)
                         checkedBooksString = checkedBooksString+",";
                 }
-                savepatrons[i].addContent(new Element("checkedBooks").setText(checkedBooksString));
+                //save out the new list
+                savepatrons[id].addContent(new Element("checkedBooks").setText(checkedBooksString));
                 
                 //add the now-finished xml object to the document
-                doc.getRootElement().addContent(savepatrons[i]);
+                doc.getRootElement().addContent(savepatrons[id]);
             }//end for each patron
             
             //write the file

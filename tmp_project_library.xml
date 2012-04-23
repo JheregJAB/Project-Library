@@ -10,7 +10,7 @@
     <phone>555-555-5555</phone>
     <email>jacob.burkamper@gmail.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday />
+    <Birthday>09/07/1991</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>0,0,0,1,2</checkedBooks>
@@ -41,6 +41,36 @@
     <email>joebob@happyville.com</email>
     <membershipStatus>Active</membershipStatus>
     <Birthday />
+    <Fines>0.0</Fines>
+    <specialFines>0.0</specialFines>
+    <checkedBooks>-1</checkedBooks>
+  </patron>
+  <patron id="3">
+    <firstname>George</firstname>
+    <lastname>Washington</lastname>
+    <street>1 Washinton St</street>
+    <city>Washington</city>
+    <state>DC</state>
+    <zipCode>1</zipCode>
+    <phone>111-111-1111</phone>
+    <email>president@whitehouse.com</email>
+    <membershipStatus>Active</membershipStatus>
+    <Birthday>01/01/0001</Birthday>
+    <Fines>0.0</Fines>
+    <specialFines>0.0</specialFines>
+    <checkedBooks>-1</checkedBooks>
+  </patron>
+  <patron id="4">
+    <firstname>Mary</firstname>
+    <lastname>Jones</lastname>
+    <street>123 Main St</street>
+    <city>Moline</city>
+    <state>IL</state>
+    <zipCode>61265</zipCode>
+    <phone>555-555-5555</phone>
+    <email>marysmith@happyville.com</email>
+    <membershipStatus>Active</membershipStatus>
+    <Birthday>02/12/1937</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>-1</checkedBooks>
