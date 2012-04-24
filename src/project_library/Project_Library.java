@@ -72,7 +72,7 @@ public class Project_Library
        switch (next)
        {//begin switch
            case 1: PatronOptions(patrons); break;
-           case 2: BooksMenu(); break;
+           case 2: BooksMenu(books); break;
            case 3: CheckoutBook(); break;
            case 4: CheckinBook(); break;
            case 5: LibrarySettingsMenu(); break;
@@ -82,7 +82,7 @@ public class Project_Library
    }//end mainMenu
 
 
-    public static void BooksMenu()
+    public static void BooksMenu(Book[] books)
     {//begin BooksMenu
         Scanner keyboard = new Scanner(System.in);
         String WelcomeMenu;
@@ -106,7 +106,7 @@ public class Project_Library
             case 0: break;
             case 1: BookSearch();break;
             case 2: AllBooks();break;
-            case 3: EditBooks();break;
+            case 3: EditBooks(books);break;
             default:System.out.println("Invalid Option"); break;
         }//end switch
 
@@ -234,31 +234,112 @@ public class Project_Library
         }while(response == 1);  //end outer do while
     }//end of addBook 
 
-        public static void EditBooks()
+        public static void EditBooks(Book[] books)
     {//begin EditBooks
+        
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("This is the Edit Books Method.");
-        String EditOptions;
-        int EditOptionsChoice;
+        int ID=100;
+        int response;
+        do
+        {//begin do
+        System.out.println("Enter the Book ID you would like to edit.");
+        System.out.println("To go back to the books option menu enter [-1]");
+        String BookID = keyboard.nextLine();
+        ID = Integer.parseInt(BookID);
+        do
+        {//begin inner do
+        System.out.println("Enter what you would like to edit.");
+        System.out.println("[1] to edit Title.");
+        System.out.println("[2] to edit Author.");
+        System.out.println("[3] to edit Book Price.");
+        System.out.println("[4] to edit Book Condition.");
+        System.out.println("[5] to edit Book Status.");
+        System.out.println("[6] to edit Check-out Date.");
+        System.out.println("[7] to edit Restrictions.");
+        System.out.println("[8] to edit Book Type"
+        + "(ex. Fiction/Non-Fiction).");
+        System.out.println("[9] to edit Category.");
+        System.out.println("[10] to edit Description.");
+        System.out.println("[0] to Finish editing Book Info.");
+        response = keyboard.nextInt();
+        switch (response)
+        {//begin switch
+        case 1: {System.out.println("Enter new Title");
+        String Title = keyboard.nextLine();
+        books[ID].setTitle(Title);break;}
+        case 2: {System.out.println("Enter new Author.");
+        String Author = keyboard.nextLine();
+        books[ID].setAuthor(Author);break;}
+        case 3: {System.out.println("Enter new Book Price");
+        double BookPrice = keyboard.nextDouble();
+        books[ID].setPrice(BookPrice);break;}
+        case 4:{System.out.println("Enter new Book Condition");
+        String bookCondition = keyboard.nextLine();
+        books[ID].setCondition(bookCondition);break;}
+        case 5:{System.out.println("Enter new Book Status");
+        String bookStatus = keyboard.nextLine();
+        books[ID].setStatus(bookStatus);break;}
+        case 6:{System.out.println("Enter new Check-Out date");
+        String CheckOutDate = keyboard.nextLine();
+        books[ID].setCheckOutDate(CheckOutDate);break;}
+        case 7:
+            {
+                boolean restrictions = false;
+                do {
+                System.out.println("Should this book be restricted to people 18 year or older? (y/n)");
+                String yesNo = keyboard.nextLine();
+                if (Character.toUpperCase(yesNo.charAt(0)) == 'Y')
+                    {restrictions = true; break;}
+                else if (Character.toUpperCase(yesNo.charAt(0)) == 'N')
+                    {restrictions = false; break;}
+                else
+                    System.out.println("Invalid Option."); } while (true);
+                books[ID].setRestricted(restrictions);
+                break;
+            }
+            
+        case 8:
+        {
+            do {
+                System.out.println("Enter 1 for Fiction or 2 for Non-Fiction");
+                String bookType = keyboard.nextLine();
+                if (Integer.parseInt(bookType) == 1)
+                    { books[ID].setFiction(true); break;}
+                else if (Integer.parseInt(bookType) == 2)
+                    {books[ID].setFiction(false); break;}
+                else
+                    System.out.println("Invalid Option"); 
+            }while (true);            
+            break;
+        }
+        case 9: {System.out.println("Enter new Book Category");
+        String bookCategory = keyboard.nextLine();
+        books[ID].setCategory(bookCategory);break;}
+        case 10: {System.out.println("Enter new Book Description");
+        String description = keyboard.nextLine();
+        books[ID].setDescription(description);break;}
+        default: System.out.println("Invalid Option");
+        }//end switch
 
-       do
-       {//begin Do
-       System.out.println("Edit Books Options"
-                + "\n[1] to change book status."
-                + "\n[2] to change the books condition."
-                + "\n[3] to go back to the  EditBooks Menu.");
-       System.out.print(": ");
-       EditOptions = keyboard.nextLine();
-        EditOptionsChoice = Integer.parseInt(EditOptions);
-        switch (EditOptionsChoice)
-        {//begin Switch
-            case 0: break;
-            case 1: EditBookStatus();break;
-            case 2: EditBookCondition();break;
-            default:System.out.println("Invalid Option"); break;
-        }//end Switch
-       }//end Do
-       while (EditOptionsChoice!=3);
+        }//end inner do
+        while(response!=0);
+
+        System.out.println("Is this information correct?");
+        System.out.println("\nThe new book's information is as follows: ");
+        System.out.println("Book ID number: "+books[ID].getBookID());
+        System.out.println("Author: "+books[ID].getAuthor());
+        System.out.println("Price: $"+books[ID].getPrice()
+        +"\nStatus: "+books[ID].getStatus()+
+        "\nCondition: "+books[ID].getCondition()+
+        "\nCheck-Out Date: "+books[ID].getCheckOutDate());
+        System.out.println("Restrictions: "+books[ID].Restricted());
+        System.out.println("Book Type: "+books[ID].getType());
+        System.out.println("Book Category: "
+        +books[ID].getCategory());
+        System.out.println("Description: "+books[ID].getDescription());
+
+        }//end Do
+        while(ID!=-1);
     }//end EditBooks
 
     public static void BookSearch()
@@ -568,15 +649,57 @@ public class Project_Library
 
     public static Book[] loadBooks()
     {
-        Book[] books = new Book[2];
-        System.out.println("The Books will be loaded here!");
-        return books;
+        SAXBuilder builder = new SAXBuilder();
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_books.xml";
+        File booksXMLFile = new File(path);
+        while (! booksXMLFile.exists() )
+        {
+            path = askForFile(path,"Book XML File");
+            booksXMLFile = new File(path);
+        }
+        
+        try {
+            Document document = (Document) builder.build(booksXMLFile);
+            Element rootNode = document.getRootElement();
+            List list = rootNode.getChildren("book");
+            
+            Book[] books = new Book[list.size()+10];
+            //initialize entire patron array
+            for (int id = 0; id < books.length; id++)
+                books[id] = new Book();
+            
+            for (int id = 0; id < list.size(); id++)
+            {
+                Element node = (Element) list.get(id);
+                books[id].setIsSet();
+                books[id].setRestricted(Boolean.parseBoolean(node.getChildText("resctrictions")));
+                books[id].setFiction(Boolean.parseBoolean(node.getChildText("fiction")));
+                books[id].setTitle(node.getChildText("title"));
+                books[id].setAuthor(node.getChildText("author"));
+                books[id].setCondition(node.getChildText("condition"));
+                books[id].setStatus(node.getChildText("status"));
+                books[id].setCategory(node.getChildText("category"));
+                books[id].setDescription(node.getChildText("description"));
+                books[id].setCheckOutDate(node.getChildText("checkOutDate"));
+                books[id].setSummary(node.getChildText("summary"));
+                books[id].setPrice(Double.parseDouble(node.getChildText("price")));
+                books[id].setCheckedOutBy(Integer.parseInt(node.getChildText("checkedOutBy")));
+                
+            }
+            return books;
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        } catch (JDOMException jdomex) {
+            System.out.println(jdomex.getMessage());
+        }
+        return null;
+        
     }
 
     public static Patron[] loadPatrons()
     {
         SAXBuilder builder = new SAXBuilder();
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\tmp_project_library.xml";
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_patrons.xml";
         File patronXMLFile = new File(path);
         while (! patronXMLFile.exists() )
         {
