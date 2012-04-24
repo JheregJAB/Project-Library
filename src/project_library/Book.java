@@ -13,7 +13,6 @@ public class Book
     private boolean isSet;
     private boolean restrictions;
     private boolean fiction;
-    private boolean nonFiction;
     private String title;
     private String author;
     private String condition;
@@ -31,7 +30,6 @@ public class Book
         isSet = false;
         restrictions = false;
         fiction = true;
-        nonFiction = true;
     }
    
     public String getTitle()
@@ -172,5 +170,13 @@ public class Book
     public void setRestricted(boolean isRestricted)
     {
         restrictions = isRestricted;
+    }
+    
+    public String getType()
+    {
+        if (fiction)
+            return "Fiction";
+        else
+            return "Non-Fiction";
     }
 }
