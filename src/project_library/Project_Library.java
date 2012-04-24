@@ -569,8 +569,6 @@ public class Project_Library
 
         }//end Do
         while(ID!=-1);
-
-        ;
     }//end of searchEditPatron
 
     //***** addPatron ******************
