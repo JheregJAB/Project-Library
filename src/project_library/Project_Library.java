@@ -775,7 +775,7 @@ public class Project_Library
     public static void savePatrons(Patron[] patrons)
     {
         //get the file as needed.
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\tmp_project_library.xml";
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_patrons.xml";
         File patronXMLFile = new File(path);
         //if the file doesn't exist, ask for a path
         while (!patronXMLFile.exists())
@@ -847,7 +847,60 @@ public class Project_Library
 
     public static void saveBooks(Book[] books)
     {
-        System.out.println("This method would save the books");
+        //get the file as needed.
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_books.xml";
+        File patronXMLFile = new File(path);
+        //if the file doesn't exist, ask for a path
+        while (!patronXMLFile.exists())
+        {
+            path = askForFile(path,"Book XML File");
+            patronXMLFile = new File(path);
+        }
+        
+        try {
+            //create the XML document
+            Element bookfile = new Element("bookfile");
+            Document doc = new Document(bookfile);
+            doc.setRootElement(bookfile);
+            
+            //get the total number of used books in the array
+            int usedbooks = 0;
+            for (int id=0; id<books.length; id++)
+            {
+                if (books[id].isSet())
+                    usedbooks++;
+            }
+            
+            //create an XML object for each patron, assign all its values
+            Element[] savebooks = new Element[usedbooks];
+            for (int id=0; id<savebooks.length;id++)
+            {//begin for each patron
+                savebooks[id] = new Element("book");
+                savebooks[id].setAttribute(new Attribute("id",String.valueOf(id)));
+                savebooks[id].addContent(new Element("restrictions").setText(String.valueOf(books[id].Restricted())));
+                savebooks[id].addContent(new Element("fiction").setText(String.valueOf(books[id].Fiction())));
+                savebooks[id].addContent(new Element("title").setText(books[id].getTitle()));
+                savebooks[id].addContent(new Element("author").setText(books[id].getAuthor()));
+                savebooks[id].addContent(new Element("condition").setText(books[id].getCondition()));
+                savebooks[id].addContent(new Element("status").setText(books[id].getStatus()));
+                savebooks[id].addContent(new Element("category").setText(books[id].getCategory()));
+                savebooks[id].addContent(new Element("description").setText(books[id].getDescription()));
+                savebooks[id].addContent(new Element("checkOutDate").setText(books[id].getCheckOutDate()));
+                savebooks[id].addContent(new Element("summary").setText(books[id].getSummary()));
+                savebooks[id].addContent(new Element("price").setText(String.valueOf(books[id].getPrice())));
+                savebooks[id].addContent(new Element("checkedOutBy").setText(String.valueOf(books[id].getCheckedOutBy())));
+                
+                //add the now-finished xml object to the document
+                doc.getRootElement().addContent(savebooks[id]);
+            }//end for each patron
+            
+            //write the file
+            XMLOutputter xmlOutput = new XMLOutputter();            
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(doc, new FileWriter(path));
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        }
     }
     
     public static String askForFile(String path, String filename)
