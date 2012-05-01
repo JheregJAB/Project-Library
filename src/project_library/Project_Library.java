@@ -913,9 +913,43 @@ public class Project_Library
     }
 
     public static void saveLibrary(Library library)
-    {
-        System.out.println("This method would save the library settings");
-    }
+    {//begin saveLibrary
+        //get the file as needed.
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_settings.xml";
+        File patronXMLFile = new File(path);
+        //if the file doesn't exist, ask for a path
+        while (!patronXMLFile.exists())
+        {
+            path = askForFile(path,"Library settings file");
+            patronXMLFile = new File(path);
+        }
+        
+        try {
+            //create the XML document
+            Element libraryFile = new Element("libraryFile");
+            Document doc = new Document(libraryFile);
+            doc.setRootElement(libraryFile);
+            
+            //create an XML object for the library
+            Element saveLibrary = new Element("library");
+            saveLibrary.addContent(new Element("isPassSet").setText(String.valueOf(library.isPassSet())));
+            saveLibrary.addContent(new Element("libraryName").setText(String.valueOf(library.getlibraryName())));
+            saveLibrary.addContent(new Element("password").setText(library.getPassword()));
+            saveLibrary.addContent(new Element("fine").setText(String.valueOf(library.getFine())));
+            saveLibrary.addContent(new Element("maxFine").setText(String.valueOf(library.getMaxFine())));
+            saveLibrary.addContent(new Element("checkoutTime").setText(String.valueOf(library.getCheckoutTime())));
+                
+                //add the now-finished xml object to the document
+                doc.getRootElement().addContent(saveLibrary);
+            
+            //write the file
+            XMLOutputter xmlOutput = new XMLOutputter();            
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(doc, new FileWriter(path));
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        }
+    }//end saveLibrary
 
     public static void savePatrons(Patron[] patrons)
     {
