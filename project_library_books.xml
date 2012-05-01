@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookfile>
+  <book id="0">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>Game of Thrones</title>
+    <author>George R. R. Martin</author>
+    <condition>Excellent</condition>
+    <status>IN</status>
+    <category>empty</category>
+    <description>Book one of a song of Ice and Fire</description>
+    <checkOutDate>Empty</checkOutDate>
+    <summary>A bunch of people fight over a throne.</summary>
+    <price>15.0</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="1">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>A Clash of Kings</title>
+    <author>George R. R. Martin</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description />
+    <checkOutDate>empty</checkOutDate>
+    <summary>More fighting over thrones, this time with 5 kings.</summary>
+    <price>15.0</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="2">
+    <restrictions>true</restrictions>
+    <fiction>true</fiction>
+    <title>A Feast For Crows</title>
+    <author>George R. R. Martin</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description />
+    <checkOutDate>empty</checkOutDate>
+    <summary>Sounds like people get eaten by crows</summary>
+    <price>15.0</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+</bookfile>
+

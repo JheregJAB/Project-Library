@@ -92,10 +92,11 @@ public class Project_Library
 
         do
         {//begin do
-       System.out.println("Enter the option you want"
-                + "to do:\n [1] to Search for books."
-                + "\n [2] to list all the books."
-                + "\n [3] to Edit the books."
+       System.out.println("Enter the option you want:"
+                + "\n [1] to Add a new book."
+                + "\n [2] to Search for books."
+                + "\n [3] to list all the books."
+                + "\n [4] to Edit the books."
                 + "\n [0] to Exit to the main menu");
        System.out.print(": ");
        WelcomeMenu = keyboard.nextLine();
@@ -104,9 +105,10 @@ public class Project_Library
         switch (MenuOption)
         {//begin switch
             case 0: break;
-            case 1: BookSearch();break;
-            case 2: AllBooks();break;
-            case 3: EditBooks(books);break;
+            case 1: addBook(books);
+            case 2: BookSearch(books);break;
+            case 3: AllBooks(books);break;
+            case 4: EditBooks(books);break;
             default:System.out.println("Invalid Option"); break;
         }//end switch
 
@@ -130,6 +132,9 @@ public class Project_Library
             //set book ID number
             int bookID = findNextBook(books);
             newBook.setBookID(bookID);
+
+            //set the book as being set
+            newBook.setIsSet();
            
             //prompt user to input book information
             System.out.println("\nPlease enter the following information "
@@ -171,7 +176,7 @@ public class Project_Library
                     case 2: yesNoRestricted = false; break;
                     default: System.out.println("Invalid Option");
                 }//end of switch
-            }while (restricted != 1 || restricted != 2); //end do while
+            }while (restricted != 1 && restricted != 2); //end do while
             newBook.setRestricted(yesNoRestricted);           
            
             //set fiction or non-fiction
@@ -189,7 +194,7 @@ public class Project_Library
                     case 2: yesNoFiction = false; break;
                     default: System.out.println("Invalid Option");
                 }//end of switch
-            }while (fiction != 1 || fiction != 2); //end do while
+            }while (fiction != 1 && fiction != 2); //end do while
             newBook.setFiction(yesNoFiction);
            
             //set status, checkedOutBy and checkOutDate to default
@@ -206,7 +211,7 @@ public class Project_Library
             System.out.println("Book ID number: "+newBook.getBookID());
             System.out.println("Title: "+newBook.getTitle());
             System.out.println("Author: "+newBook.getAuthor());
-            System.out.println("Summary: "+newBook.getDescription());
+            System.out.println("Summary: "+newBook.getSummary());
             System.out.println("Condition: "+newBook.getCondition());
             System.out.println("Price: "+newBook.getPrice());
             System.out.print("Restricted to over 18: ");
@@ -229,7 +234,7 @@ public class Project_Library
                 response = keyboard.nextInt();
                 if (response != 1 || response !=2)
                     System.out.println("Invalid Option");
-            }while (restricted != 1 || restricted != 2); //end inner do while
+            }while (restricted != 1 && restricted != 2); //end inner do while
            
         }while(response == 1);  //end outer do while
     }//end of addBook 
@@ -244,10 +249,13 @@ public class Project_Library
         {//begin do
         System.out.println("Enter the Book ID you would like to edit.");
         System.out.println("To go back to the books option menu enter [-1]");
+        System.out.print(": ");
         String BookID = keyboard.nextLine();
         ID = Integer.parseInt(BookID);
         do
         {//begin inner do
+            if (ID == -1)
+                break;
         System.out.println("Enter what you would like to edit.");
         System.out.println("[1] to edit Title.");
         System.out.println("[2] to edit Author.");
@@ -262,31 +270,40 @@ public class Project_Library
         System.out.println("[10] to edit Description.");
         System.out.println("[0] to Finish editing Book Info.");
         response = keyboard.nextInt();
+
+        //absorb newline
+        keyboard.nextLine();
         switch (response)
         {//begin switch
         case 1: {System.out.println("Enter new Title");
+        System.out.print(": ");
         String Title = keyboard.nextLine();
         books[ID].setTitle(Title);break;}
         case 2: {System.out.println("Enter new Author.");
+        System.out.print(": ");
         String Author = keyboard.nextLine();
         books[ID].setAuthor(Author);break;}
         case 3: {System.out.println("Enter new Book Price");
+        System.out.print(": ");
         double BookPrice = keyboard.nextDouble();
         books[ID].setPrice(BookPrice);break;}
         case 4:{System.out.println("Enter new Book Condition");
+        System.out.print(": ");
         String bookCondition = keyboard.nextLine();
         books[ID].setCondition(bookCondition);break;}
         case 5:{System.out.println("Enter new Book Status");
+        System.out.print(": ");
         String bookStatus = keyboard.nextLine();
         books[ID].setStatus(bookStatus);break;}
         case 6:{System.out.println("Enter new Check-Out date");
+        System.out.print(": ");
         String CheckOutDate = keyboard.nextLine();
         books[ID].setCheckOutDate(CheckOutDate);break;}
         case 7:
             {
                 boolean restrictions = false;
                 do {
-                System.out.println("Should this book be restricted to people 18 year or older? (y/n)");
+                System.out.print("Should this book be restricted to people 18 year or older?\n(y/n): ");
                 String yesNo = keyboard.nextLine();
                 if (Character.toUpperCase(yesNo.charAt(0)) == 'Y')
                     {restrictions = true; break;}
@@ -302,6 +319,7 @@ public class Project_Library
         {
             do {
                 System.out.println("Enter 1 for Fiction or 2 for Non-Fiction");
+                System.out.print(": ");
                 String bookType = keyboard.nextLine();
                 if (Integer.parseInt(bookType) == 1)
                     { books[ID].setFiction(true); break;}
@@ -313,9 +331,11 @@ public class Project_Library
             break;
         }
         case 9: {System.out.println("Enter new Book Category");
+        System.out.print(": ");
         String bookCategory = keyboard.nextLine();
         books[ID].setCategory(bookCategory);break;}
         case 10: {System.out.println("Enter new Book Description");
+        System.out.print(": ");
         String description = keyboard.nextLine();
         books[ID].setDescription(description);break;}
         default: System.out.println("Invalid Option");
@@ -324,6 +344,8 @@ public class Project_Library
         }//end inner do
         while(response!=0);
 
+        if (ID == -1)
+            break;
         System.out.println("Is this information correct?");
         System.out.println("\nThe new book's information is as follows: ");
         System.out.println("Book ID number: "+books[ID].getBookID());
@@ -342,14 +364,130 @@ public class Project_Library
         while(ID!=-1);
     }//end EditBooks
 
-    public static void BookSearch()
+    public static void BookSearch(Book[] books)
     {//begin BookSearch
-        System.out.println("This is the Book Search Method.");
+        Scanner keyboard = new Scanner(System.in);
+        int response=-1;
+        do {
+        System.out.println("What would you like to search by?");
+        System.out.println("[1] ID");
+        System.out.println("[2] Title");
+        System.out.println("[3] Author");
+        System.out.print(": ");
+        response = keyboard.nextInt();
+        switch (response)
+        {//begin switch
+                case 1:
+                {//begin case 1
+                    System.out.println("Please enter the ID of the book");
+                    System.out.print(": ");
+                    int ID = keyboard.nextInt();
+                    System.out.println("Book ID number: "+ID);
+                    System.out.println("Title: "+books[ID].getTitle());
+                    System.out.println("Author: "+books[ID].getAuthor());
+                    System.out.println("Price: $"+books[ID].getPrice()
+                    +"\nStatus: "+books[ID].getStatus()+
+                    "\nCondition: "+books[ID].getCondition()+
+                    "\nCheck-Out Date: "+books[ID].getCheckOutDate());
+                    System.out.println("Restrictions: "+books[ID].Restricted());
+                    System.out.println("Book Type: "+books[ID].getType());
+                    System.out.println("Book Category: "
+                    +books[ID].getCategory());
+                    System.out.println("Description: "+books[ID].getDescription());
+                    break;
+                }//end case 1
+                case 2:
+                {//begin case 2
+                    //absorb newline
+                    keyboard.nextLine();
+                    System.out.println("Please enter all or part of the title");
+                    System.out.print(": ");
+                    String titlePart = keyboard.nextLine();
+
+                    for (int ID = 0; ID < books.length; ID++)
+                    {
+                        if (!books[ID].isSet())
+                            continue;
+                        String Title = books[ID].getTitle();
+                        if ( Title.indexOf(titlePart) != -1)
+                        {
+                            System.out.println();
+                            System.out.println("Book ID number: "+ID);
+                            System.out.println("Title: "+books[ID].getTitle());
+                            System.out.println("Author: "+books[ID].getAuthor());
+                            System.out.println("Price: $"+books[ID].getPrice()
+                            +"\nStatus: "+books[ID].getStatus()+
+                            "\nCondition: "+books[ID].getCondition()+
+                            "\nCheck-Out Date: "+books[ID].getCheckOutDate());
+                            System.out.println("Restrictions: "+books[ID].Restricted());
+                            System.out.println("Book Type: "+books[ID].getType());
+                            System.out.println("Book Category: "+books[ID].getCategory());
+                            System.out.println("Description: "+books[ID].getDescription());
+                            System.out.println();
+                        }
+                    }
+                    break;
+
+                }//end case 2
+                case 3:
+                {//begin case 3
+                    //absorb newline
+                    keyboard.nextLine();
+                    System.out.println("Please enter all or part of the Author");
+                    System.out.print(": ");
+                    String authorPart = keyboard.nextLine();
+
+                    for (int ID = 0; ID < books.length; ID++)
+                    {
+                        if (!books[ID].isSet())
+                            continue;
+                        String Author = books[ID].getAuthor();
+                        if ( Author.indexOf(authorPart) != -1)
+                        {
+                            System.out.println();
+                            System.out.println("Book ID number: "+ID);
+                            System.out.println("Title: "+books[ID].getTitle());
+                            System.out.println("Author: "+books[ID].getAuthor());
+                            System.out.println("Price: $"+books[ID].getPrice()
+                            +"\nStatus: "+books[ID].getStatus()+
+                            "\nCondition: "+books[ID].getCondition()+
+                            "\nCheck-Out Date: "+books[ID].getCheckOutDate());
+                            System.out.println("Restrictions: "+books[ID].Restricted());
+                            System.out.println("Book Type: "+books[ID].getType());
+                            System.out.println("Book Category: "+books[ID].getCategory());
+                            System.out.println("Description: "+books[ID].getDescription());
+                            System.out.println();
+
+                        }
+                    }
+                    break;
+                }//end case 3
+                default: System.out.println("Invalid Option");
+        }//end switch
+        } while (response <1 && response > 3);
     }//end BookSearch
 
-    public static void AllBooks()
+    public static void AllBooks(Book[] books)
     {//begin AllBooks
-        System.out.println("This is the All Books method.");
+        for (int ID = 0; ID<books.length;ID++)
+        {
+            if (!books[ID].isSet())
+                continue;
+            System.out.println();
+            System.out.println("Book ID number: "+ID);
+            System.out.println("Title: "+books[ID].getTitle());
+            System.out.println("Author: "+books[ID].getAuthor());
+            System.out.println("Price: $"+books[ID].getPrice()
+            +"\nStatus: "+books[ID].getStatus()+
+            "\nCondition: "+books[ID].getCondition()+
+            "\nCheck-Out Date: "+books[ID].getCheckOutDate());
+            System.out.println("Restrictions: "+books[ID].Restricted());
+            System.out.println("Book Type: "+books[ID].getType());
+            System.out.println("Book Category: "
+            +books[ID].getCategory());
+            System.out.println("Description: "+books[ID].getDescription());
+            System.out.println();
+        }
     }//end AllBooks
 
 
@@ -935,6 +1073,30 @@ public class Project_Library
             patrons[i].setCheckedBooks(loadTestBookIDArray());
         }
         return patrons;
+    }
+
+     public static Book[] loadTestBooks()
+    {
+        Book[] books = new Book[2];
+        for (int i = 0; i<books.length;i++)
+        {
+            books[i] = new Book();
+            books[i].setIsSet();
+            books[i].setRestricted(true);
+            books[i].setFiction(true);
+            books[i].setTitle("Game of Thrones");
+            books[i].setAuthor("George R. R. Martin");
+            books[i].setCondition("Excellent");
+            books[i].setStatus("IN");
+            books[i].setCategory("empty");
+            books[i].setDescription("Book one of a song of Ice and Fire");
+            books[i].setCheckOutDate("Empty");
+            books[i].setSummary("A bunch of people fight over a throne.");
+            books[i].setPrice(15.00);
+            books[i].setCheckedOutBy(-1);
+
+        }
+        return books;
     }
     
     public static int[] loadTestBookIDArray()
