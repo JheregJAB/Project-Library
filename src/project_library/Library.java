@@ -55,7 +55,10 @@ public class Library
  
     public void setPassword(String newValue)
     {
-        isPassSet=true;
+        if (newValue == null)
+            isPassSet = false;
+        else
+            isPassSet=true;
         password = newValue;
     }
 

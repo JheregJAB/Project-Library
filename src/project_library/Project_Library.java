@@ -907,9 +907,51 @@ public class Project_Library
 
     public static Library loadLibrary()
     {
-        Library library = new Library();
-        System.out.println("The Library settings will be loaded here!");
-        return library;
+       SAXBuilder builder = new SAXBuilder();
+        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_settings.xml";
+        File libraryXMLFile = new File(path);
+        while (! libraryXMLFile.exists() )
+        {
+            path = askForFile(path,"Library Settings File");
+            libraryXMLFile = new File(path);
+        }
+        
+        try {
+            Document document = (Document) builder.build(libraryXMLFile);
+            Element rootNode = document.getRootElement();
+            List list = rootNode.getChildren("library");
+            
+            Library library = new Library();
+            
+            for (int id = 0; id < list.size(); id++)
+            {
+                //do some error checking. We should never have more than a single
+                //library
+                if (id > 0)
+                {
+                    System.out.println("FATAL ERROR: More than one library"
+                            + "is recorded in file "+path);
+                    System.out.println("Terminating Application");
+                    System.exit(1);
+                }
+                Element node = (Element) list.get(id);
+                library.setlibraryName(node.getChildText("libraryName"));
+                library.setPassword(node.getChildText("password"));
+                library.setFine(Double.parseDouble(node.getChildText("fine")));
+                library.setMaxFine(Double.parseDouble(node.getChildText("maxFine")));
+                library.setCheckoutTime(Integer.parseInt(node.getChildText("checkoutTime")));
+                
+                
+                
+            }
+            return library;
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        } catch (JDOMException jdomex) {
+            System.out.println(jdomex.getMessage());
+        }
+        return null;
+        
     }
 
     public static void saveLibrary(Library library)
