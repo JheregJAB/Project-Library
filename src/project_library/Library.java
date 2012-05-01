@@ -1,5 +1,5 @@
 /*
- * Will eventually contain settings for the Library for Project Library
+ * Contains settings for Project Library
  */
 package project_library;
 /**
@@ -8,22 +8,74 @@ package project_library;
  */
 public class Library 
 {//begin Library Class
-    //temporary members
-    String string;
-    
-    //temporary constructor
+    private boolean isPassSet;
+    private String libraryName;
+    private String password;
+    private double fine;
+    private double maxFine;
+    private int checkoutTime;
+  
     Library()
     {
-        string = "This is the library settings";
+        isPassSet = false;
+        fine = 0.00;
+        maxFine = -1;
+        password = "";
     }
-    
-    public String getString()
+  
+    public String getlibraryName()
     {
-        return string;
+        return libraryName;
     }
-    
-    public void setString(String string)
+   
+    public String getPassword()
     {
-        this.string=string;
+        return password;
+    }
+
+    public double getFine()
+    {
+        return fine;
+    }
+   
+    public double getMaxFine()
+    {
+        return maxFine;
+    }
+ 
+    public int getCheckoutTime()
+    {
+        return checkoutTime;
+    }
+ 
+    public void setlibraryName(String newValue)
+    {
+        libraryName = newValue;
+    }
+ 
+    public void setPassword(String newValue)
+    {
+        isPassSet=true;
+        password = newValue;
+    }
+
+    public void setFine(double newValue)
+    {
+        fine = newValue;
+    }
+   
+    public void setMaxFine(double newValue)
+    {
+        maxFine = newValue;
+    }
+
+    public void setCheckoutTime(int newValue)
+    {
+        checkoutTime = newValue;
+    }
+
+    public boolean isPassSet()
+    {
+        return isPassSet;
     }
 }//end Library Class

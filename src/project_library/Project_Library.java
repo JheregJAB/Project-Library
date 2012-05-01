@@ -27,16 +27,19 @@ public class Project_Library
 
     public static void main(String[] args) 
     { // begin main
+        boolean saveme = true;
         DisplayWelcome();
         Library library = loadLibrary();
         Patron[] patrons = loadPatrons();
         Book[] books = loadBooks();
         if ( askPassword(library) )
-            MainMenu(library,patrons,books);
+            saveme = MainMenu(library,patrons,books);
+        else
+            System.out.println("Password is invalid or error has occured");
         
-        saveLibrary(library);
-        savePatrons(patrons);
-        saveBooks(books);
+        //only save the project if the user selected save and exit at the menu
+        if (saveme)
+            saveProject(library, patrons, books);
         System.exit(0);
     } //End main
     
@@ -52,11 +55,12 @@ public class Project_Library
         System.out.println();
     }
     
-    public static void MainMenu(Library library, Patron[] patrons, Book[] books)
+    public static boolean MainMenu(Library library, Patron[] patrons, Book[] books)
    {//begin mainMenu
        Scanner keyboard = new Scanner(System.in);
        int next;
        boolean nextLoop = true;
+       boolean toReturn = false;
        do
        {//begin do
        System.out.println("Library Management");
@@ -66,7 +70,9 @@ public class Project_Library
        System.out.println("3. Checkout Book");
        System.out.println("4. Checkin Book");
        System.out.println("5. Library Settings");
-       System.out.println("6. Exit");
+       System.out.println("6. Save Settings");
+       System.out.println("7. Save and Exit");
+       System.out.println("99. Exit without Saving");
        System.out.print(": ");
        next = keyboard.nextInt();
        switch (next)
@@ -76,9 +82,12 @@ public class Project_Library
            case 3: CheckoutBook(); break;
            case 4: CheckinBook(); break;
            case 5: LibrarySettingsMenu(); break;
-           case 6: nextLoop = false; break;
+           case 6: saveProject(library, patrons, books); break;
+           case 7: nextLoop = false; toReturn = true; break;
+           case 99: nextLoop = false; toReturn = false; break;
        }//end switch
        }while (nextLoop);//end do
+       return toReturn;
    }//end mainMenu
 
 
@@ -1139,5 +1148,14 @@ public class Project_Library
         }
         return NextID;
     }
+        
+        public static void saveProject(Library library, Patron[] patrons, Book[] books)
+        {
+            System.out.println("Saving...");
+            saveLibrary(library);
+            savePatrons(patrons);
+            saveBooks(books);
+            System.out.println("Save complete");
+        }
 
 } //End Project_Library
