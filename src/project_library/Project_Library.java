@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Date;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -82,7 +83,7 @@ public class Project_Library
        {//begin switch
            case 1: PatronOptions(patrons); break;
            case 2: BooksMenu(books); break;
-           case 3: CheckoutBook(); break;
+           case 3: CheckoutBook(library, patrons, books); break;
            case 4: CheckinBook(); break;
            case 5: LibrarySettingsMenu(library); break;
            case 6: saveProject(library, patrons, books); break;
@@ -773,9 +774,115 @@ public class Project_Library
        System.out.println("You are at the Book Records Menu");
    }
    
-   public static void CheckoutBook()
+   public static void CheckoutBook(Library library, Patron[] patron, Book[] book)
    {
-       System.out.println("You are at the Checkout Books Menu");
+       Scanner keyboard = new Scanner(System.in);       
+        int patronID;
+        double totalFines;
+        double maxFine;
+        int response;
+       
+        //get patron
+        System.out.println("You are at Book Checkout");
+        System.out.println("Enter Patron ID number");
+        System.out.println(": ");
+        patronID = keyboard.nextInt();       
+        
+ //???  //Check patronID number for validity
+       
+        //check for fines. 
+        totalFines = GetFines(patronID) +
+                patron[patronID].getSpecialFine();
+        maxFine = library.getMaxFine();
+        System.out.println("This patron's current total fines are $"
+                +totalFines);
+       
+        //let patron pay fines
+        if(totalFines > 0.0)
+        {//begin of outer if
+            do
+            {//begin of do while
+                System.out.println("Would the patron like to pay current "
+                        + "fines? Enter 1 for yes, 2 for no");
+                System.out.println(": ");
+                response = keyboard.nextInt();
+                if (response!=1 && response!=2)
+                    System.out.println("Invalid Option");
+            }while(response!=1 && response!=2);  //end of do while
+            if(response == 1)
+            {//begin of inner if
+                System.out.println("Enter the amount the patron would like "
+                        + "to pay toward a special fine");
+                System.out.println(": ");
+                double paySpecial = keyboard.nextDouble();
+                patron[patronID].setSpecialFine(patron[patronID].getSpecialFine() - paySpecial);
+                System.out.println("The patron's new special fine is $"
+                        +patron[patronID].getSpecialFine());
+                System.out.println("Enter the amount the patron would like "
+                        + "to pay toward regular fines");
+                System.out.println(": ");
+                double payFines = keyboard.nextDouble();
+                patron[patronID].setFine(GetFines(patronID) -
+                        payFines);
+                System.out.println("The patron's new regular fine is $"
+                        +GetFines(patronID));
+            }//end of inner if
+        }//end of outer if
+       
+        //check if current fines are over max limit for fines
+        totalFines = patron[patronID].getSpecialFine() +
+                patron[patronID].getFine();
+        if(totalFines >= library.getMaxFine())
+        {//begin of if
+            System.out.println("This patron's fines have surpassed the fine"
+                    + "limit. \nThis patron cannot check out any more books"
+                    + "until fines are paid.");
+            return;
+        }//end of if
+        else
+        {//begin of else
+            do
+            {//begin of do outer while
+                System.out.println("Enter Book ID of the book to be "
+                        + "checked out");
+                System.out.println(": ");
+                int bookID = keyboard.nextInt();
+               
+//??????        //check if bookID number for validity
+               
+                //check if book is restricted to over 18 and if so, if
+                //user is over 18
+                boolean restricted = book[bookID].Restricted();               
+                if(CalculateUnder18(patron[patronID]) == true &&
+                        restricted == true)
+                    System.out.println("This patron is not 18 and can not"
+                          + "check out this restricted book.");
+               
+                //check out book
+                else
+                {//begin of inner else
+                    book[bookID].setStatus("checked out");
+                    patron[patronID].setCheckedBooks(bookID);
+                    book[bookID].setCheckedOutBy(patronID);
+//???               book[bookID].setCheckOutDate("today");
+                    System.out.println("This book is due back on "
+                            + CalculateDueDate());                       
+                } //end of inner else
+               
+                //ask if user would like to check out another book
+                do
+                {//begin of inner do while
+                System.out.println("Would this patron like to check out another"
+                        + "book? Enter 1 for yes, 2 to exit to the main menu");
+                response = keyboard.nextInt();
+                if(response!=1 || response!=2)
+                    System.out.println("Invalid Option");
+                }while(response!=1 || response!=2);//end of inner do while
+                if(response == 2)
+                    return;
+            }while (response == 1);  //end of outer do while
+       
+        }//end of outer else
    }
    
    public static void CheckinBook()
@@ -1450,7 +1557,7 @@ public class Project_Library
         //parsePath currently only checks for trailing slashes.
         //it adds them if they are not there.
         public static String parsePath(String path)
-        {
+        {//begin parsePath
             if (path.endsWith("/") || path.endsWith("\\"))
                 return path;
             else
@@ -1467,6 +1574,26 @@ public class Project_Library
                     path = path+"/";
             }
             return path;
+        }//end parsePath
+        
+        public static boolean CalculateUnder18(Patron patron)
+        {
+            return false;
+        }
+   
+        public static Date CalculateDueDate()
+        {
+            //todo
+            return null;
+        }
+        
+        public static double GetFines(int ID)
+        {
+            //this is going to need work. A lot of thinking involved.
+            //needs to calculate any overdue books currently on file
+            //but, what happens if the book is turned in but the fine hasn't been payed?
+            //going to require thinking...
+            return 0;
         }
 
 } //End Project_Library

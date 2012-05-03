@@ -3,7 +3,8 @@
  * project library
  */
 package project_library;
-
+import java.util.Date;
+import java.util.GregorianCalendar;
 /**
  *
  * @author jacob
@@ -19,7 +20,7 @@ public class Book
     private String status;
     private String category;
     private String description;
-    private String checkOutDate;
+    private Date checkOutDate;
     private String summary;
     private double price;
     private int checkedOutBy;
@@ -63,6 +64,11 @@ public class Book
     }
    
     public String getCheckOutDate()
+    {
+        return String.valueOf(checkOutDate.getMonth())+"/"+String.valueOf(checkOutDate.getDay())+"/"+String.valueOf(checkOutDate.getYear());
+    }
+    
+    public Date getCheckoutDateRaw()
     {
         return checkOutDate;
     }
@@ -119,7 +125,17 @@ public class Book
   
     public void setCheckOutDate(String newValue)
     {
-        checkOutDate = newValue;
+        String[] splitString = newValue.split("/");
+        
+        int month = Integer.parseInt(splitString[0]) - 1;
+        int date = Integer.parseInt(splitString[1]);
+        int year = Integer.parseInt(splitString[2]);
+        checkOutDate = new GregorianCalendar(year,month,date).getTime();
+    }
+    
+    public void setCheckoutDateRaw(Date newDate)
+    {
+        checkOutDate = newDate;
     }
 
     public void setPrice(double newValue)

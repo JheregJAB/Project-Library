@@ -3,7 +3,8 @@
  * project library
  */
 package project_library;
-
+import java.util.Date;
+import java.util.GregorianCalendar;
 /**
  *
  * @author jacob
@@ -21,11 +22,11 @@ public class Patron
     private String email;
     //private String restrictedTo;
     private String membershipStatus;
-    private String birthday;
+    private Date birthday;
     private double fine;
     private double specialFine;
     private static int patronID;
-    private int[] checkedBooks;
+    private int[] checkedBooks = {-1};
     
     Patron()
     {
@@ -83,6 +84,11 @@ public class Patron
     }
    
     public String getBirthday()
+    {
+        return String.valueOf(birthday.getMonth())+"/"+String.valueOf(birthday.getDay())+"/"+String.valueOf(birthday.getYear());
+    }
+    
+    public Date getBirthdayRaw()
     {
         return birthday;
     }
@@ -154,6 +160,16 @@ public class Patron
    
     public void setBirthday(String newValue)
     {
+        String[] splitString = newValue.split("/");
+        
+        int month = Integer.parseInt(splitString[0]) - 1;
+        int date = Integer.parseInt(splitString[1]);
+        int year = Integer.parseInt(splitString[2]);
+        birthday = new GregorianCalendar(year,month,date).getTime();
+    }
+    
+    public void setBirthdayRaw(Date newValue)
+    {
         birthday = newValue;
     }
    
@@ -174,9 +190,27 @@ public class Patron
     
     public void setCheckedBooks(int newValue)
     {
-        int[] temp = new int[1];
-        temp[0] = newValue;
-        checkedBooks = temp;
+        boolean foundEmptyBook =false;
+        for (int i=0; i<checkedBooks.length||!foundEmptyBook;i++)
+        {
+            if (checkedBooks[i] == -1)
+            {
+                checkedBooks[i]=newValue;
+                foundEmptyBook = true;
+            }
+        }
+        if (!foundEmptyBook)
+        {
+            int[] temp = new int[checkedBooks.length+1];
+            for (int n=0; n<checkedBooks.length;n++)
+            {
+                temp[n]=checkedBooks[n];
+            }
+            temp[temp.length-1]=newValue;    
+            checkedBooks = temp;
+        }
+            
+        
     }
    
     public void setPatronID(int newValue)
