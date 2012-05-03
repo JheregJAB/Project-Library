@@ -24,14 +24,17 @@ import org.jdom.output.XMLOutputter;
  */
 public class Project_Library
 { //begin Project_Library
+    
+    static boolean isFirstRun = false;
 
     public static void main(String[] args) 
     { // begin main
-        boolean saveme = true;
+        boolean saveme = false;
         DisplayWelcome();
-        Library library = loadLibrary();
-        Patron[] patrons = loadPatrons();
-        Book[] books = loadBooks();
+        String pathPrefix = getPathPrefix();
+        Library library = loadLibrary(pathPrefix);
+        Patron[] patrons = loadPatrons(pathPrefix);
+        Book[] books = loadBooks(pathPrefix);
         if ( askPassword(library) )
             saveme = MainMenu(library,patrons,books);
         else
@@ -792,21 +795,27 @@ public class Project_Library
                 System.out.println("[1] to edit Password.");
                 System.out.println("[2] to edit fine.");
                 System.out.println("[3] to edit Maximum fine.");
-                System.out.println("[4] to edit Checkout time.");              
+                System.out.println("[4] to edit Checkout time.");
+                System.out.print(": ");
                 response = keyboard.nextInt();
+                keyboard.nextLine(); //absorb newline
                 switch (response)
                 {//begin switch
                     case 1: {System.out.println("Enter new Password");
+                            System.out.print(": ");
                              String password = keyboard.nextLine();
                              settings.setPassword(password);break;}
                     case 2: {System.out.println("Enter new fine per day.");
+                             System.out.print(": ");
                              String fineString = keyboard.nextLine();
                              double fine = Double.parseDouble(fineString);
                              settings.setFine(fine);break;}
                     case 3: {System.out.println("Enter new maximum fine");
+                             System.out.print(": ");
                              double maxfine = keyboard.nextDouble();
                              settings.setMaxFine(maxfine);break;}
                     case 4:{System.out.println("Enter new Checkout time.");
+                            System.out.print(": ");
                              String checkoutString = keyboard.nextLine();
                              int checkout = Integer.parseInt(checkoutString);
                              settings.setCheckoutTime(checkout);break;}            
@@ -818,17 +827,69 @@ public class Project_Library
 
    }
 
-    public static boolean askPassword(Library library)
-    {
-        System.out.println("This is the method which asks for the password");
-        System.out.println("It has not yet been implimented, so we'll just let you in");
-        return true;
-    }
+   /************************ askPassword ******************************
+    * 
+    * askpassword, called once at the beginning of the program.
+    * Needs to know about the library settings, and if this is the First
+    * run of the program.
+    * 
+    * If this is the first run, will ask to set the password.
+    * If this is not the first run, will ask for the password.
+    * After 3 incorrect attempts, will force the program to exit without saving
+    * 
+    ******************************************************************/ 
+   public static boolean askPassword(Library library)
+    {//begin askPassword
+        Scanner userInput = new Scanner(System.in);
+        
+        //if this is the first run, ask for a new password.
+        if (isFirstRun)
+        {//begin if isFirstRun
+            System.out.println("Since this is the first time you have run the program,"
+                    + "\nPlease enter a new password. This password will be needed in order\n"
+                    + "to access your data in the future, so be sure to write it down!");
+            
+            boolean match; String finalPass;
+            do 
+            { //begin do while
+            System.out.print("Password: ");
+            String password1 = userInput.nextLine();
+            System.out.print("Re-enter Password: ");
+            String password2 = userInput.nextLine();
+            //compare passwords
+            match = password1.equals(password2) && !password1.equals("");
+            
+            //if the passwords don't match, display a message
+            if (!match)
+                System.out.println("Error, passwords don't match");
+            else
+                library.setPassword(password1);
+            } while (!match); //continue to ask for new passwords until they match
+            //^ end do while
+            return true;
+        }//end if isFirstRun
+        else
+        {//begin else isFirstRun
+            String passIs = library.getPassword();
+            //give three attempts
+            for (int attempt = 1; attempt <= 3; attempt++)
+            {
+                System.out.print("Enter Password: ");
+                String passAttempt = userInput.nextLine();
+                boolean match = passIs.equals(passAttempt);
+                if (match)
+                    return true;
+                else
+                    System.out.println("Incorrect Password\n. You have "+(3 - attempt)+" attempts left.");
+            }
+        }//end else isFirstRun
+        return false; //just in case the password never passes.
+    }//end askPassword
 
-    public static Book[] loadBooks()
+    public static Book[] loadBooks(String pathPrefix)
     {
         SAXBuilder builder = new SAXBuilder();
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_books.xml";
+        String path = pathPrefix+"project_library_books.xml";
         File booksXMLFile = new File(path);
         while (! booksXMLFile.exists() )
         {
@@ -874,10 +935,10 @@ public class Project_Library
         
     }
 
-    public static Patron[] loadPatrons()
+    public static Patron[] loadPatrons(String pathPrefix)
     {
         SAXBuilder builder = new SAXBuilder();
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_patrons.xml";
+        String path = pathPrefix+"project_library_patrons.xml";
         File patronXMLFile = new File(path);
         while (! patronXMLFile.exists() )
         {
@@ -938,10 +999,10 @@ public class Project_Library
         
     }
 
-    public static Library loadLibrary()
+    public static Library loadLibrary(String pathPrefix)
     {
        SAXBuilder builder = new SAXBuilder();
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_settings.xml";
+        String path = pathPrefix+"project_library_settings.xml";
         File libraryXMLFile = new File(path);
         while (! libraryXMLFile.exists() )
         {
@@ -1265,6 +1326,147 @@ public class Project_Library
             savePatrons(patrons);
             saveBooks(books);
             System.out.println("Save complete");
+        }
+        
+        public static String getPathPrefix()
+        {//begin getPathPrefix
+            Scanner userInput = new Scanner(System.in);
+            String defaultPath = "E:\\School\\bhc\\CS225\\Project_Library\\";
+            File directory = new File(defaultPath);
+            String pathPrefix = defaultPath;
+            
+            while (true)
+            {//begin while true
+                //if the directory exists, check for the files
+                if (directory.exists())
+                {//begin if directory exists
+                    File librarySettings = new File(pathPrefix+"project_library_settings.xml");
+                    File patronsFile = new File(pathPrefix+"project_library_patrons.xml");
+                    File booksFile = new File(pathPrefix+"project_library_books.xml");
+                    if ( (!booksFile.exists() ) || (!patronsFile.exists() )||(!librarySettings.exists()) )
+                    {
+                        System.out.println("ERROR: Could not find a required file in directory: "+pathPrefix);
+                        pathPrefix = getNewPathPrefix(pathPrefix);
+                    }
+                    else
+                        return pathPrefix;
+                }//end if directory exists
+                else
+                {//begin if directory doesn't exist
+                    System.out.println("ERROR: Could not find directory: "+pathPrefix);
+                    pathPrefix = getNewPathPrefix(pathPrefix);
+                }//end if directory doesn't exist
+                //can only be reached if a new prefix needs to be checked for
+                directory = new File(pathPrefix);
+            }//end while true
+        }//end getPathPrefix
+        
+        public static String getNewPathPrefix(String oldPathPrefix)
+        {//begin getNewPathPrefix
+            Scanner userInput = new Scanner(System.in);
+            String newPath = "!";
+            System.out.println("Could not find the specified directory. How would you like to troubleshoot?");
+            System.out.println("[1] Create new directory");
+            System.out.println("[2] Create missing directory");
+            System.out.println("[3] Enter the path to a different directory");
+            System.out.println("[4] Exit");
+            System.out.print(": ");
+            int response = userInput.nextInt();
+            userInput.nextLine(); //absorb newline
+            boolean exitLoop = false;
+            do {
+                switch (response)
+                {//begin switch
+                    case 1:
+                    {
+                        System.out.println("Please enter the path to the new directory");
+                        System.out.print(": ");
+                        newPath = userInput.nextLine();
+                        isFirstRun = true;
+                        exitLoop = true;
+                    }
+                    case 2:
+                    {
+                        newPath = oldPathPrefix;
+                        isFirstRun = true;
+                        exitLoop = true;
+                    }
+                    case 3:
+                    {
+                        System.out.println("please enter the path to the directory containing the project_library files.");
+                        System.out.print(": ");
+                        newPath = userInput.nextLine();
+                        return newPath;
+                    }
+                    case 4:
+                    {
+                        System.exit(42);
+                    }
+                    default: System.out.println("Invalid Option");
+                }//end switch
+            } while (!exitLoop);
+            
+            //parse newpath here, add trailing '/' or '\'
+            newPath = parsePath(newPath);
+            File newDir = new File(newPath);
+            //if creation of the new file succeeds, create the xml files too
+            if (newDir.mkdirs())
+            {
+                File libraryXML = new File(newPath+"project_library_settings.xml");
+                File patronXML = new File(newPath+"project_library_patrons.xml");
+                File bookXML = new File(newPath+"project_library_patrons.xml");
+                int createdFiles = 0;
+                try {
+                    if (libraryXML.createNewFile())
+                        createdFiles++;
+                    if (patronXML.createNewFile())
+                        createdFiles++;
+                    if (bookXML.createNewFile())
+                        createdFiles++;
+                }catch(IOException ioe){
+                    System.out.println("Error creating a new file : "+ioe);
+                }
+                
+                if (createdFiles != 3)
+                {
+                    System.out.println("FATAL: All files were not created");
+                    System.out.println("Unhandled error");
+                    System.exit(99);
+                }
+                else
+                    return newPath;
+            }
+            else
+            {
+                System.out.println("FATAL: All files were not created");
+                    System.out.println("Unhandled error");
+                    System.exit(99);
+            }
+            //if we get here, something weird happened
+            return null;
+            
+        }//end getNewPathPrefix
+        
+        //parsePath currently only checks for trailing slashes.
+        //it adds them if they are not there.
+        public static String parsePath(String path)
+        {
+            if (path.endsWith("/") || path.endsWith("\\"))
+                return path;
+            else
+            {
+                if (path.indexOf("/") == -1)
+                    if (path.indexOf("\\") == -1)
+                    {
+                        System.out.println("unable to parse path. Can not determine \'/\' or \'\\\'");
+                        System.exit(98);
+                    }
+                    else
+                        path = path+"\\";
+                else
+                    path = path+"/";
+            }
+            return path;
         }
 
 } //End Project_Library
