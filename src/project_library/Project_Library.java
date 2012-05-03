@@ -3,6 +3,12 @@
  * Problem Statement:   A program to manage a library
  * Input:               Library settings, books, patrons, lots of menu options
  * Output:              Whatever the user asks for, as far as the above.
+ * 
+ * 
+ * 
+ * TODO:
+ * Save and Load of Patron.OldFines
+ * more
 */
 
 package project_library;
@@ -791,24 +797,29 @@ public class Project_Library
  //???  //Check patronID number for validity
        
         //check for fines. 
-        totalFines = GetFines(patronID) +
-                patron[patronID].getSpecialFine();
+        totalFines = GetFinesOnCurrent(patron,patronID) +
+                patron[patronID].getSpecialFine() + patron[patronID].getOldFines();
         maxFine = library.getMaxFine();
-        System.out.println("This patron's current total fines are $"
-                +totalFines);
+        System.out.printf("This patron's current total fines are $%1.2f%n",
+                totalFines);
+        System.out.printf("The patron has $%1.2f in fines on books which "
+                + "are currently checked out.%n",
+                GetFinesOnCurrent(patron,patronID));
+        System.out.printf("The patron has $%1.2f in special fines%n",patron[patronID].getSpecialFine());
+        System.out.printf("The patron has $%1.2f in fines on books which have already been returned%n",patron[patronID].getOldFines());
        
         //let patron pay fines
         if(totalFines > 0.0)
         {//begin of outer if
             do
             {//begin of do while
-                System.out.println("Would the patron like to pay current "
+                System.out.println("Would the patron like to pay old "
                         + "fines? Enter 1 for yes, 2 for no");
                 System.out.println(": ");
                 response = keyboard.nextInt();
                 if (response!=1 && response!=2)
                     System.out.println("Invalid Option");
-            }while(response!=1 && response!=2);  //end of do while
+            }while(response!=1 || response!=2);  //end of do while
             if(response == 1)
             {//begin of inner if
                 System.out.println("Enter the amount the patron would like "
@@ -819,19 +830,19 @@ public class Project_Library
                 System.out.println("The patron's new special fine is $"
                         +patron[patronID].getSpecialFine());
                 System.out.println("Enter the amount the patron would like "
-                        + "to pay toward regular fines");
+                        + "to pay toward old fines");
                 System.out.println(": ");
                 double payFines = keyboard.nextDouble();
-                patron[patronID].setFine(GetFines(patronID) -
+                patron[patronID].setOldFines(patron[patronID].getOldFines() -
                         payFines);
-                System.out.println("The patron's new regular fine is $"
-                        +GetFines(patronID));
+                System.out.println("The amount the patron owes for old fines is $"
+                        +patron[patronID].getOldFines());
             }//end of inner if
         }//end of outer if
        
         //check if current fines are over max limit for fines
         totalFines = patron[patronID].getSpecialFine() +
-                patron[patronID].getFine();
+                patron[patronID].getOldFines() + GetFinesOnCurrent(patron,patronID);
         if(totalFines >= library.getMaxFine())
         {//begin of if
             System.out.println("This patron's fines have surpassed the fine"
@@ -1587,7 +1598,7 @@ public class Project_Library
             return null;
         }
         
-        public static double GetFines(int ID)
+        public static double GetFinesOnCurrent(Patron[] patrons, int ID)
         {
             //this is going to need work. A lot of thinking involved.
             //needs to calculate any overdue books currently on file

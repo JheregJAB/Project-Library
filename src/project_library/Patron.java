@@ -27,6 +27,7 @@ public class Patron
     private double specialFine;
     private static int patronID;
     private int[] checkedBooks = {-1};
+    private double oldFines = 0.0;
     
     Patron()
     {
@@ -231,6 +232,21 @@ public class Patron
     public void setMembershipStatus(String status)
     {
         membershipStatus=status;
+    }
+    
+    public double getOldFines()
+    {
+        return oldFines;
+    }
+    
+    public void addOldFine(double toAdd)
+    {
+        oldFines += toAdd;
+    }
+    
+    public void setOldFines(double newValue)
+    {
+        oldFines = newValue;
     }
 
 }
