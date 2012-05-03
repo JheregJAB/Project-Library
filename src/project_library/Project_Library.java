@@ -81,7 +81,7 @@ public class Project_Library
            case 2: BooksMenu(books); break;
            case 3: CheckoutBook(); break;
            case 4: CheckinBook(); break;
-           case 5: LibrarySettingsMenu(); break;
+           case 5: LibrarySettingsMenu(library); break;
            case 6: saveProject(library, patrons, books); break;
            case 7: nextLoop = false; toReturn = true; break;
            case 99: nextLoop = false; toReturn = false; break;
@@ -780,9 +780,42 @@ public class Project_Library
        System.out.println("You are at the Checkin Books Menu");
    }
    
-   public static void LibrarySettingsMenu()
+   public static void LibrarySettingsMenu(Library settings)
    {
-       System.out.println("You are at the Library Settings Menu");
+        
+        Scanner keyboard = new Scanner(System.in);
+        int ID=100;
+        int response;       
+        do
+            {//begin inner do
+                System.out.println("Enter what you would like to edit.");
+                System.out.println("[1] to edit Password.");
+                System.out.println("[2] to edit fine.");
+                System.out.println("[3] to edit Maximum fine.");
+                System.out.println("[4] to edit Checkout time.");              
+                response = keyboard.nextInt();
+                switch (response)
+                {//begin switch
+                    case 1: {System.out.println("Enter new Password");
+                             String password = keyboard.nextLine();
+                             settings.setPassword(password);break;}
+                    case 2: {System.out.println("Enter new fine per day.");
+                             String fineString = keyboard.nextLine();
+                             double fine = Double.parseDouble(fineString);
+                             settings.setFine(fine);break;}
+                    case 3: {System.out.println("Enter new maximum fine");
+                             double maxfine = keyboard.nextDouble();
+                             settings.setMaxFine(maxfine);break;}
+                    case 4:{System.out.println("Enter new Checkout time.");
+                             String checkoutString = keyboard.nextLine();
+                             int checkout = Integer.parseInt(checkoutString);
+                             settings.setCheckoutTime(checkout);break;}            
+                    default: System.out.println("Invalid Option");
+                }//end switch
+
+            }//end inner do
+                while(response!=0);   
+
    }
 
     public static boolean askPassword(Library library)
