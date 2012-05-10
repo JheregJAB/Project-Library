@@ -801,17 +801,23 @@ public class Project_Library
         System.out.println(": ");
         patronID = keyboard.nextInt();       
         
- //???  //Check patronID number for validity
+         //Check patronID number for validity
+        if (patronID < 0 || patronID > patron.length)
+        {
+            System.out.println("Invalid ID Number");
+            return;
+        }
+            
        
         //check for fines. 
-        totalFines = GetFinesOnCurrent(patron,patronID) +
+        totalFines = GetFinesOnCurrent(patron[patronID],book,library) +
                 patron[patronID].getSpecialFine() + patron[patronID].getOldFines();
         maxFine = library.getMaxFine();
         System.out.printf("This patron's current total fines are $%1.2f%n",
                 totalFines);
         System.out.printf("The patron has $%1.2f in fines on books which "
                 + "are currently checked out.%n",
-                GetFinesOnCurrent(patron,patronID));
+                GetFinesOnCurrent(patron[patronID],book,library));
         System.out.printf("The patron has $%1.2f in special fines%n",patron[patronID].getSpecialFine());
         System.out.printf("The patron has $%1.2f in fines on books which have already been returned%n",patron[patronID].getOldFines());
        
@@ -849,7 +855,7 @@ public class Project_Library
        
         //check if current fines are over max limit for fines
         totalFines = patron[patronID].getSpecialFine() +
-                patron[patronID].getOldFines() + GetFinesOnCurrent(patron,patronID);
+                patron[patronID].getOldFines() + GetFinesOnCurrent(patron[patronID],book,library);
         if(totalFines >= library.getMaxFine())
         {//begin of if
             System.out.println("This patron's fines have surpassed the fine"
@@ -882,9 +888,9 @@ public class Project_Library
                     book[bookID].setStatus("checked out");
                     patron[patronID].setCheckedBooks(bookID);
                     book[bookID].setCheckedOutBy(patronID);
-//???               book[bookID].setCheckOutDate("today");
+                    book[bookID].setCheckOutDateRaw(new Date());
                     System.out.println("This book is due back on "
-                            + CalculateDueDate());                       
+                            + CalculateDueDateString(book[bookID],library));                       
                 } //end of inner else
                
                 //ask if user would like to check out another book
@@ -1532,20 +1538,20 @@ public class Project_Library
     }
     
         public static int findNextBook(Book[] books)
-    {
-        int NextID=-1;
-        for (int i = 0; i < books.length; i++)
         {
-            if (books[i].isSet())
-                continue;
-            else
+            int NextID=-1;
+            for (int i = 0; i < books.length; i++)
             {
-                if (NextID == -1)
-                    NextID = i;
+                if (books[i].isSet())
+                    continue;
+                else
+                {
+                    if (NextID == -1)
+                        NextID = i;
+                }
             }
+            return NextID;
         }
-        return NextID;
-    }
         
         public static void saveProject(String pathPrefix, Library library, Patron[] patrons, Book[] books)
         {
@@ -1702,22 +1708,39 @@ public class Project_Library
         
         public static boolean CalculateUnder18(Patron patron)
         {
-            return false;
+            Date Birthday = patron.getBirthdayRaw();
+            Date today = new Date();
+            int millisInYear = (1000 * 60 * 60 *24 * 7 * 52);
+            
+            int yearsOld = (int)(today.getTime() - Birthday.getTime()) / millisInYear;
+            if (yearsOld < 18)
+                return true;
+            else
+                return false;
+            
         }
    
-        public static Date CalculateDueDate()
+        public static String CalculateDueDateString(Book book, Library library)
         {
-            //todo
-            return null;
+            GregorianCalendar todayCal = new GregorianCalendar();
+            Date today = todayCal.getTime();
+            //calculate the due date for the book
+            Date dueDate = new Date(book.getCheckoutDateRaw().getTime());
+            GregorianCalendar dueDateCal = new GregorianCalendar(dueDate.getYear(),dueDate.getMonth(),dueDate.getDate());
+            dueDateCal.add(GregorianCalendar.DATE, library.getCheckoutTime());
+            dueDate = dueDateCal.getTime();
+            return String.valueOf(dueDate.getMonth()+1)+"/"+String.valueOf(dueDate.getDate())+"/"+String.valueOf(dueDate.getYear());
         }
         
-        public static double GetFinesOnCurrent(Patron[] patrons, int ID)
+        public static double GetFinesOnCurrent(Patron patron, Book[] books,Library library)
         {
-            //this is going to need work. A lot of thinking involved.
-            //needs to calculate any overdue books currently on file
-            //but, what happens if the book is turned in but the fine hasn't been payed?
-            //going to require thinking...
-            return 0;
+            double TotalFines = 0;
+            for (int checkedBookNum = 0; checkedBookNum < patron.getCheckedBooks().length; checkedBookNum++)
+            {
+                double Fine = CalcFineFromBook(books[patron.getCheckedBooks()[checkedBookNum]],library);
+                TotalFines += Fine;
+            }
+            return TotalFines;
         }
 
 } //End Project_Library

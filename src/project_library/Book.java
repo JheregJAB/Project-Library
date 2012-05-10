@@ -65,7 +65,7 @@ public class Book
    
     public String getCheckOutDate()
     {
-        return String.valueOf(checkOutDate.getMonth())+"/"+String.valueOf(checkOutDate.getDay())+"/"+String.valueOf(checkOutDate.getYear());
+        return String.valueOf(checkOutDate.getMonth()+1)+"/"+String.valueOf(checkOutDate.getDate())+"/"+String.valueOf(checkOutDate.getYear());
     }
     
     public Date getCheckoutDateRaw()
@@ -202,5 +202,10 @@ public class Book
             return "Fiction";
         else
             return "Non-Fiction";
+    }
+    
+    public void setCheckOutDateRaw(Date newdate)
+    {
+        checkOutDate = newdate;
     }
 }
