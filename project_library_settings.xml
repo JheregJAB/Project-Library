@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libraryFile>
+  <library>
+    <isPassSet>true</isPassSet>
+    <libraryName>null</libraryName>
+    <password>project</password>
+    <fine>0.25</fine>
+    <maxFine>15.0</maxFine>
+    <checkoutTime>14</checkoutTime>
+  </library>
+</libraryFile>
+

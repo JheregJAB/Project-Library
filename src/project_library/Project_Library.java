@@ -1551,12 +1551,14 @@ public class Project_Library
                         newPath = userInput.nextLine();
                         isFirstRun = true;
                         exitLoop = true;
+                        break;
                     }
                     case 2:
                     {
                         newPath = oldPathPrefix;
                         isFirstRun = true;
                         exitLoop = true;
+                        break;
                     }
                     case 3:
                     {
