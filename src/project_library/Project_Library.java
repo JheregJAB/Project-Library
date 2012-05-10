@@ -12,9 +12,7 @@
 */
 
 package project_library;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Date;
@@ -886,9 +884,9 @@ public class Project_Library
                 System.out.println("Would this patron like to check out another"
                         + "book? Enter 1 for yes, 2 to exit to the main menu");
                 response = keyboard.nextInt();
-                if(response!=1 || response!=2)
+                if(response!=1 && response!=2)
                     System.out.println("Invalid Option");
-                }while(response!=1 || response!=2);//end of inner do while
+                }while(response!=1 && response!=2);//end of inner do while
                 if(response == 2)
                     return;
             }while (response == 1);  //end of outer do while
@@ -914,6 +912,7 @@ public class Project_Library
                 System.out.println("[2] to edit fine.");
                 System.out.println("[3] to edit Maximum fine.");
                 System.out.println("[4] to edit Checkout time.");
+                System.out.println("[0] to go back");
                 System.out.print(": ");
                 response = keyboard.nextInt();
                 keyboard.nextLine(); //absorb newline
@@ -1014,6 +1013,23 @@ public class Project_Library
             path = askForFile(path,"Book XML File");
             booksXMLFile = new File(path);
         }
+
+        //check to see if file is empty
+        // if it is, create and return empty array
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(path));
+            int b = fis.read();
+            if (b == -1)
+            {
+                Book[] books = new Book[10];
+                for (Book book:books)
+                    book = new Book();
+                return books;
+            }
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
         
         try {
             Document document = (Document) builder.build(booksXMLFile);
@@ -1062,6 +1078,23 @@ public class Project_Library
         {
             path = askForFile(path,"Patron XML File");
             patronXMLFile = new File(path);
+        }
+
+        //check to see if file is empty
+        // if it is, create and return empty array
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(path));
+            int b = fis.read();
+            if (b == -1)
+            {
+                Patron[] patrons = new Patron[15];
+                for (Patron patron:patrons)
+                    patron = new Patron();
+                return patrons;
+            }
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
         }
         
         try {
@@ -1127,7 +1160,23 @@ public class Project_Library
             path = askForFile(path,"Library Settings File");
             libraryXMLFile = new File(path);
         }
-        
+
+        //check to see if file is empty
+        // if it is, create and return empty array
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(path));
+            int b = fis.read();
+            if (b == -1)
+            {
+                Library library = new Library();
+                return library;
+            }
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        //File is not empty, read XML
         try {
             Document document = (Document) builder.build(libraryXMLFile);
             Element rootNode = document.getRootElement();

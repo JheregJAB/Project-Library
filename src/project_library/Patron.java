@@ -162,11 +162,16 @@ public class Patron
     public void setBirthday(String newValue)
     {
         String[] splitString = newValue.split("/");
-        
-        int month = Integer.parseInt(splitString[0]) - 1;
-        int date = Integer.parseInt(splitString[1]);
-        int year = Integer.parseInt(splitString[2]);
-        birthday = new GregorianCalendar(year,month,date).getTime();
+
+        if (splitString.length != 3)
+            birthday = new GregorianCalendar(0,0,0).getTime();
+        else
+        {
+            int month = Integer.parseInt(splitString[0]) - 1;
+            int date = Integer.parseInt(splitString[1]);
+            int year = Integer.parseInt(splitString[2]);
+            birthday = new GregorianCalendar(year,month,date).getTime();
+        }
     }
     
     public void setBirthdayRaw(Date newValue)
@@ -192,13 +197,15 @@ public class Patron
     public void setCheckedBooks(int newValue)
     {
         boolean foundEmptyBook =false;
-        for (int i=0; i<checkedBooks.length||!foundEmptyBook;i++)
+        for (int i=0; i<checkedBooks.length;i++)
         {
             if (checkedBooks[i] == -1)
             {
                 checkedBooks[i]=newValue;
                 foundEmptyBook = true;
             }
+            if (foundEmptyBook)
+                break;
         }
         if (!foundEmptyBook)
         {

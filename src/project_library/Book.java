@@ -126,11 +126,16 @@ public class Book
     public void setCheckOutDate(String newValue)
     {
         String[] splitString = newValue.split("/");
-        
-        int month = Integer.parseInt(splitString[0]) - 1;
-        int date = Integer.parseInt(splitString[1]);
-        int year = Integer.parseInt(splitString[2]);
-        checkOutDate = new GregorianCalendar(year,month,date).getTime();
+
+        if (splitString.length != 3)
+            checkOutDate = new GregorianCalendar(0,0,0).getTime();
+        else
+        {
+            int month = Integer.parseInt(splitString[0]) - 1;
+            int date = Integer.parseInt(splitString[1]);
+            int year = Integer.parseInt(splitString[2]);
+            checkOutDate = new GregorianCalendar(year,month,date).getTime();
+        }
     }
     
     public void setCheckoutDateRaw(Date newDate)
