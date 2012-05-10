@@ -872,7 +872,12 @@ public class Project_Library
                 System.out.println(": ");
                 int bookID = keyboard.nextInt();
                
-//??????        //check if bookID number for validity
+               //check if bookID number for validity
+                if (bookID < 0 || bookID > book.length)
+                {
+                    System.out.println("Invalid Book ID number");
+                    return;
+                }
                
                 //check if book is restricted to over 18 and if so, if
                 //user is over 18
