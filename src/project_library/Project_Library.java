@@ -13,9 +13,11 @@
 
 package project_library;
 import java.io.*;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -940,8 +942,22 @@ public class Project_Library
    
    public static double CalcFineFromBook(Book book, Library library)
    {
-       if (/* the fine is older than the number of days from library settings*/)
-           /*multiply the number of days overdue * the fine rate */
+       //todays date
+       GregorianCalendar todayCal = new GregorianCalendar();
+       Date today = todayCal.getTime();
+       //calculate the due date for the book
+       Date dueDate = new Date(book.getCheckoutDateRaw().getTime());
+       GregorianCalendar dueDateCal = new GregorianCalendar(dueDate.getYear(),dueDate.getMonth(),dueDate.getDate());
+       dueDateCal.add(GregorianCalendar.DATE, library.getCheckoutTime());
+       dueDate = dueDateCal.getTime();
+       if (dueDate.after(today))
+       {
+           int daysOverDue = (int)(today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 *24) ;
+           double totalFine = daysOverDue * library.getFine();
+           return totalFine;
+       }
+       else
+           return 0;
    }
    
    public static void LibrarySettingsMenu(Library settings)
