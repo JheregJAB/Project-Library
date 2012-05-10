@@ -82,16 +82,16 @@ public class Project_Library
        System.out.println("5. Library Settings");
        System.out.println("6. Save Settings");
        System.out.println("7. Save and Exit");
-       System.out.println("99. Exit without Saving");
+       //System.out.println("99. Exit without Saving");
        System.out.print(": ");
        next = keyboard.nextInt();
        switch (next)
        {//begin switch
-           case 1: PatronOptions(pathPrefix, patrons); break;
+           case 1: PatronOptions(pathPrefix, patrons, books, library); break;
            case 2: BooksMenu(pathPrefix, books); break;
-           case 3: CheckoutBook(library, patrons, books); break;
+           case 3: CheckoutBook(pathPrefix, library, patrons, books); break;
            case 4: CheckinBook(pathPrefix, patrons, books, library); break;
-           case 5: LibrarySettingsMenu(library); break;
+           case 5: LibrarySettingsMenu(pathPrefix, library); break;
            case 6: saveProject(pathPrefix, library, patrons, books); break;
            case 7: nextLoop = false; toReturn = true; break;
            case 99: nextLoop = false; toReturn = false; break;
@@ -514,7 +514,7 @@ public class Project_Library
 
 
         //***** PatronOptions ****************
-    public static void PatronOptions(String pathPrefix, Patron[] patrons)
+    public static void PatronOptions(String pathPrefix, Patron[] patrons,Book[] books, Library library)
     {//begin of PatronOptions
         Scanner keyboard = new Scanner(System.in);
         int response;
@@ -539,7 +539,7 @@ public class Project_Library
                 case 1:addPatron(pathPrefix, patrons);break;
                 case 2:editPatrons(pathPrefix, patrons);break;
                 case 3:listPatrons(patrons);break;
-                case 4:patronFines();break;
+                case 4:patronFines(patrons,books,library);break;
                 case 5:break;
                 default: System.out.println("Invalid Option");
             }
@@ -760,22 +760,29 @@ public class Project_Library
     }//end of listPatrons
 
     //***** addPatron ******************
-    public static void patronFines()
+    public static void patronFines(Patron[] patrons,Book[] books, Library library)
     {//begin of patronFines
-        System.out.println("\nYou are at Check Patron's Fines.");
+        Scanner userInput = new Scanner(System.in);
+        //returns all the fines associated with a patron
+        while (true)
+        {
+            System.out.println("Please enter the id number of the patron, or -1 to exit");
+            System.out.print(": ");
+            int patronID = userInput.nextInt();
+
+            //make sure is a valid patron
+            if (patronID < 0 || patronID > patrons.length)
+            {
+                System.out.println("Not a Patron, Going Back");
+                return;
+            }
+            double totalFines = GetFinesOnCurrent(patrons[patronID],books,library)+patrons[patronID].getOldFines()+patrons[patronID].getSpecialFine();
+            System.out.printf("Fines from books currently checked out: $%1.2f%n",GetFinesOnCurrent(patrons[patronID],books,library));
+            System.out.printf("Fines from books that have been returned: $%1.2f%n",patrons[patronID].getOldFines());
+            System.out.printf("Fines for other reasons: $%1.2f%n",patrons[patronID].getSpecialFine());
+            System.out.printf("Total Fines: $%1.2f%n",totalFines);
+        }
     }//end of patronFines
-
-    public static void EditBookStatus()
-    {//begin EditBookStatus
-      System.out.println("This is the Edit Book Status method"
-              + " under the Edit Books method.");
-    }//end EditBookStatus
-
-    public static void EditBookCondition()
-    {//begin EditBookCondition
-        System.out.println("This is the Edit Books Condition"
-                + " method under the Edit Books Method.");
-    }//end EditBookCondition
    
    public static void PatronRecordsMenu()
    {
@@ -787,7 +794,7 @@ public class Project_Library
        System.out.println("You are at the Book Records Menu");
    }
    
-   public static void CheckoutBook(Library library, Patron[] patron, Book[] book)
+   public static void CheckoutBook(String pathPrefix, Library library, Patron[] patron, Book[] book)
    {
        Scanner keyboard = new Scanner(System.in);       
         int patronID;
@@ -898,6 +905,9 @@ public class Project_Library
                             + CalculateDueDateString(book[bookID],library));                       
                 } //end of inner else
                
+                //save the changes
+                saveBooks(pathPrefix, book);
+                savePatrons(pathPrefix,patron);
                 //ask if user would like to check out another book
                 do
                 {//begin of inner do while
@@ -971,7 +981,7 @@ public class Project_Library
            return 0;
    }
    
-   public static void LibrarySettingsMenu(Library settings)
+   public static void LibrarySettingsMenu(String pathPrefix, Library settings)
    {
         
         Scanner keyboard = new Scanner(System.in);
@@ -1012,7 +1022,8 @@ public class Project_Library
                 }//end switch
 
             }//end inner do
-                while(response!=0);   
+                while(response!=0);
+        saveLibrary(pathPrefix, settings);
 
    }
 
