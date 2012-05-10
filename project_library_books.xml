@@ -9,8 +9,8 @@
     <status>IN</status>
     <category>empty</category>
     <description>Book one of a song of Ice and Fire</description>
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>A bunch of people fight over a throne.</summary>
+    <checkOutDate>5/5/-1</checkOutDate>
+    <summary>Book one of a song of Ice and Fire</summary>
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
@@ -23,8 +23,8 @@
     <status>checked in</status>
     <category />
     <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>More fighting over thrones, this time with 5 kings.</summary>
+    <checkOutDate>5/5/-1</checkOutDate>
+    <summary />
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
@@ -37,121 +37,37 @@
     <status>checked in</status>
     <category />
     <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>Sounds like people get eaten by crows</summary>
+    <checkOutDate>5/5/-1</checkOutDate>
+    <summary />
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
   <book id="3">
-    <restrictions>false</restrictions>
-    <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
+    <restrictions>true</restrictions>
+    <fiction>true</fiction>
+    <title>The Girl with the Dragon Tattoo</title>
+    <author>Stieg Larsson</author>
     <condition>new</condition>
     <status>checked in</status>
     <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
+    <description>The first volume in the Millennium Trilogy, and an international publishing sensation, The Girl with the Dragon Tattoo combines murder mystery, family saga, love story, and financial intrigue into one satisfyingly complex and entertainingly atmospheric novel.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>The first volume in the Millennium Trilogy, and an international publishing sensation, The Girl with the Dragon Tattoo combines murder mystery, family saga, love story, and financial intrigue into one satisfyingly complex and entertainingly atmospheric novel.</summary>
+    <price>9.99</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
   <book id="4">
     <restrictions>false</restrictions>
     <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
+    <title>The Art of War</title>
+    <author>Sun Tzu</author>
     <condition>new</condition>
     <status>checked in</status>
     <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="5">
-    <restrictions>false</restrictions>
-    <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="6">
-    <restrictions>false</restrictions>
-    <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="7">
-    <restrictions>false</restrictions>
-    <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="8">
-    <restrictions>false</restrictions>
-    <fiction>false</fiction>
-    <title />
-    <author>Eric S. Raymond</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
-    <checkOutDate>9/5/-1898</checkOutDate>
-    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
-    <price>34.0</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="9">
-    <restrictions>false</restrictions>
-    <fiction>true</fiction>
-    <title>Ender's Game</title>
-    <author>Orson Scott Card</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
+    <description>Compiled more than two thousand years ago, the Art of War is still perhaps the most prestigious and influential book of strategy in the world today. A study of the anatomy of forces in conflict, it has been discovered by modern business people, who understand the principles it contains are as useful for understanding the interactions of modern corporations as they are for understanding the tactics of ancient Chinese armies.</description>
     <checkOutDate>11/3/-1898</checkOutDate>
-    <summary>In order to develop a secure defense against a hostile alien race's next attack, government agencies breed child geniuses and train them as soldiers. A brilliant young boy, Andrew "Ender" Wiggin lives with his kind but distant parents, his sadistic brother Peter, and the person he loves more than anyone else, his sister Valentine.</summary>
-    <price>5.99</price>
-    <checkedOutBy>-1</checkedOutBy>
-  </book>
-  <book id="10">
-    <restrictions>false</restrictions>
-    <fiction>true</fiction>
-    <title>Ender's Game</title>
-    <author>Orson Scott Card</author>
-    <condition>new</condition>
-    <status>checked in</status>
-    <category />
-    <description />
-    <checkOutDate>11/3/-1898</checkOutDate>
-    <summary>In order to develop a secure defense against a hostile alien race's next attack, government agencies breed child geniuses and train them as soldiers. A brilliant young boy, Andrew "Ender" Wiggin lives with his kind but distant parents, his sadistic brother Peter, and the person he loves more than anyone else, his sister Valentine.</summary>
-    <price>5.99</price>
+    <summary>Compiled more than two thousand years ago, the Art of War is still perhaps the most prestigious and influential book of strategy in the world today. A study of the anatomy of forces in conflict, it has been discovered by modern business people, who understand the principles it contains are as useful for understanding the interactions of modern corporations as they are for understanding the tactics of ancient Chinese armies.</summary>
+    <price>11.22</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
 </bookfile>

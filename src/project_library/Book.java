@@ -21,7 +21,7 @@ public class Book
     private String category;
     private String description;
     private Date checkOutDate;
-    private String summary;
+    //private String summary;
     private double price;
     private int checkedOutBy;
     private static int bookID;
@@ -90,12 +90,12 @@ public class Book
     
     public String getSummary()
     {
-        return summary;
+        return description;
     }
     
     public void setSummary(String newSummary)
     {
-        summary = newSummary;
+        description = newSummary;
     }
   
     public void setTitle(String newValue)

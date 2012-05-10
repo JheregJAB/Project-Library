@@ -85,7 +85,7 @@ public class Project_Library
        next = keyboard.nextInt();
        switch (next)
        {//begin switch
-           case 1: PatronOptions(patrons); break;
+           case 1: PatronOptions(pathPrefix, patrons); break;
            case 2: BooksMenu(pathPrefix, books); break;
            case 3: CheckoutBook(library, patrons, books); break;
            case 4: CheckinBook(); break;
@@ -141,12 +141,13 @@ public class Project_Library
     public static void addBook(String pathPrefix, Book[] books)
     {//begin of addBook
        
-        Book newBook = new Book();
+        
         Scanner keyboard = new Scanner(System.in);
         int response;
         do
         {//begin outer do while
             //set book ID number
+            Book newBook = new Book();
             int bookID = findNextBook(books);
             newBook.setBookID(bookID);
 
@@ -166,14 +167,11 @@ public class Project_Library
             System.out.print(": ");
             String author = keyboard.nextLine();
             newBook.setAuthor(author);
-            System.out.println("Book Summary");
+            System.out.println("Book Description");
             System.out.print(": ");
             String summary = keyboard.nextLine();
             newBook.setSummary(summary);
-            System.out.println("Condition (new, fair, or poor");
-            System.out.print(": ");
-            String condition = keyboard.nextLine();
-            newBook.setCondition(condition);
+            newBook.setCondition("new"); //set condition to new
             System.out.println("Purchase Price");
             System.out.print(": ");
             Double price = keyboard.nextDouble();
@@ -514,7 +512,7 @@ public class Project_Library
 
 
         //***** PatronOptions ****************
-    public static void PatronOptions(Patron[] patrons)
+    public static void PatronOptions(String pathPrefix, Patron[] patrons)
     {//begin of PatronOptions
         Scanner keyboard = new Scanner(System.in);
         int response;
@@ -536,8 +534,8 @@ public class Project_Library
 
             switch (response)
             {
-                case 1:addPatron(patrons);break;
-                case 2:editPatrons(patrons);break;
+                case 1:addPatron(pathPrefix, patrons);break;
+                case 2:editPatrons(pathPrefix, patrons);break;
                 case 3:listPatrons(patrons);break;
                 case 4:patronFines();break;
                 case 5:break;
@@ -548,13 +546,14 @@ public class Project_Library
     }//end of PatronOptions
 
     //***** addPatron ******************
-    public static void addPatron(Patron[] patrons)
+    public static void addPatron(String pathPrefix, Patron[] patrons)
     {//begin of addPatron
-        Patron patron = new Patron();
+        
         Scanner keyboard = new Scanner(System.in);
         int response;
         do
         {//begin of do while
+            Patron patron = new Patron();
             patron.setIsSet();
             System.out.println("\nPlease enter the following information "
                     + "for the new patron: ");
@@ -618,6 +617,8 @@ public class Project_Library
             System.out.println("Email address: "+patron.getEmail());
             System.out.println("Membership status: "+patron.getMembershipStatus());
             System.out.println("Birthday: "+patron.getBirthday());
+            
+            savePatrons(pathPrefix, patrons);
            
             System.out.println("\nWould you like to add another patron?"
                         + "\nEnter 1 for yes, 2 for no.");
@@ -627,7 +628,7 @@ public class Project_Library
     }//end of addPatron
 
     //***** addPatron ******************
-    public static void editPatrons(Patron[] patrons)
+    public static void editPatrons(String pathPrefix, Patron[] patrons)
     {//begin of searchEditPatron
         Scanner keyboard = new Scanner(System.in);
         int ID=100;
@@ -728,6 +729,8 @@ public class Project_Library
 
         }//end Do
         while(ID!=-1);
+        
+        savePatrons(pathPrefix, patrons);
     }//end of searchEditPatron
 
     //***** addPatron ******************
@@ -1056,9 +1059,9 @@ public class Project_Library
                 books[id].setCondition(node.getChildText("condition"));
                 books[id].setStatus(node.getChildText("status"));
                 books[id].setCategory(node.getChildText("category"));
-                books[id].setDescription(node.getChildText("description"));
                 books[id].setCheckOutDate(node.getChildText("checkOutDate"));
                 books[id].setSummary(node.getChildText("summary"));
+                books[id].setDescription(node.getChildText("description"));
                 books[id].setPrice(Double.parseDouble(node.getChildText("price")));
                 books[id].setCheckedOutBy(Integer.parseInt(node.getChildText("checkedOutBy")));
                 
@@ -1569,6 +1572,7 @@ public class Project_Library
                         System.out.println("please enter the path to the directory containing the project_library files.");
                         System.out.print(": ");
                         newPath = userInput.nextLine();
+                        newPath = parsePath(newPath);
                         return newPath;
                     }
                     case 4:
