@@ -10,7 +10,7 @@
     <phone>555-555-5555</phone>
     <email>jacob.burkamper@gmail.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday>09/07/1991</Birthday>
+    <Birthday>6/1/-90</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>0,0,0,1,2</checkedBooks>
@@ -25,7 +25,7 @@
     <phone>555-555-5555</phone>
     <email>jacob.burkamper@gmail.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday />
+    <Birthday>9/5/-1898</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>0,0,0,1,2</checkedBooks>
@@ -40,7 +40,7 @@
     <phone>123-456-7890</phone>
     <email>joebob@happyville.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday />
+    <Birthday>9/5/-1898</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>-1</checkedBooks>
@@ -55,7 +55,7 @@
     <phone>111-111-1111</phone>
     <email>president@whitehouse.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday>01/01/0001</Birthday>
+    <Birthday>10/0/-1899</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>-1</checkedBooks>
@@ -70,7 +70,7 @@
     <phone>555-555-5555</phone>
     <email>marysmith@happyville.com</email>
     <membershipStatus>Active</membershipStatus>
-    <Birthday>02/12/1937</Birthday>
+    <Birthday>11/2/-35</Birthday>
     <Fines>0.0</Fines>
     <specialFines>0.0</specialFines>
     <checkedBooks>-1</checkedBooks>

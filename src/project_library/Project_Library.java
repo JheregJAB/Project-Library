@@ -41,13 +41,13 @@ public class Project_Library
         Patron[] patrons = loadPatrons(pathPrefix);
         Book[] books = loadBooks(pathPrefix);
         if ( askPassword(library) )
-            saveme = MainMenu(library,patrons,books);
+            saveme = MainMenu(pathPrefix, library,patrons,books);
         else
             System.out.println("Password is invalid or error has occured");
         
         //only save the project if the user selected save and exit at the menu
         if (saveme)
-            saveProject(library, patrons, books);
+            saveProject(pathPrefix, library, patrons, books);
         System.exit(0);
     } //End main
     
@@ -63,7 +63,7 @@ public class Project_Library
         System.out.println();
     }
     
-    public static boolean MainMenu(Library library, Patron[] patrons, Book[] books)
+    public static boolean MainMenu(String pathPrefix, Library library, Patron[] patrons, Book[] books)
    {//begin mainMenu
        Scanner keyboard = new Scanner(System.in);
        int next;
@@ -86,11 +86,11 @@ public class Project_Library
        switch (next)
        {//begin switch
            case 1: PatronOptions(patrons); break;
-           case 2: BooksMenu(books); break;
+           case 2: BooksMenu(pathPrefix, books); break;
            case 3: CheckoutBook(library, patrons, books); break;
            case 4: CheckinBook(); break;
            case 5: LibrarySettingsMenu(library); break;
-           case 6: saveProject(library, patrons, books); break;
+           case 6: saveProject(pathPrefix, library, patrons, books); break;
            case 7: nextLoop = false; toReturn = true; break;
            case 99: nextLoop = false; toReturn = false; break;
        }//end switch
@@ -99,7 +99,7 @@ public class Project_Library
    }//end mainMenu
 
 
-    public static void BooksMenu(Book[] books)
+    public static void BooksMenu(String pathPrefix, Book[] books)
     {//begin BooksMenu
         Scanner keyboard = new Scanner(System.in);
         String WelcomeMenu;
@@ -122,7 +122,7 @@ public class Project_Library
         switch (MenuOption)
         {//begin switch
             case 0: break;
-            case 1: addBook(books);
+            case 1: addBook(pathPrefix, books); break;
             case 2: BookSearch(books);break;
             case 3: AllBooks(books);break;
             case 4: EditBooks(books);break;
@@ -138,7 +138,7 @@ public class Project_Library
     }//end BooksMenu
     
     //***** addBook ******************
-    public static void addBook(Book[] books)
+    public static void addBook(String pathPrefix, Book[] books)
     {//begin of addBook
        
         Book newBook = new Book();
@@ -184,8 +184,8 @@ public class Project_Library
             boolean yesNoRestricted = true;
             do
             {//begin do while
-                System.out.print("Restricted to over 18 (enter 1 for yes, 2 for no)");
-                System.out.println(": ");
+                System.out.println("Restricted to over 18 (enter 1 for yes, 2 for no)");
+                System.out.print(": ");
                 restricted = keyboard.nextInt();
                 switch (restricted)
                 {//begin of switch
@@ -201,9 +201,9 @@ public class Project_Library
             boolean yesNoFiction = false;
             do
             {//begin do while
-                System.out.print("Fiction or Non-Fiction (enter 1 for Fiction, "
+                System.out.println("Fiction or Non-Fiction (enter 1 for Fiction, "
                         + "2 for Non-Fiction");
-                System.out.println(": ");
+                System.out.print(": ");
                 fiction = keyboard.nextInt();
                 switch (fiction)
                 {//begin of switch
@@ -241,6 +241,8 @@ public class Project_Library
                 System.out.println("Fiction");
             else
                 System.out.println("Non-Fiction");
+            
+            saveBooks(pathPrefix, books);
 
             //ask if user wants to add another book
             do
@@ -249,14 +251,15 @@ public class Project_Library
                             + "\nEnter 1 for yes, 2 for no.");
                 System.out.print(": ");
                 response = keyboard.nextInt();
-                if (response != 1 || response !=2)
+                keyboard.nextLine(); //absorb newline
+                if (response != 1 && response !=2)
                     System.out.println("Invalid Option");
             }while (restricted != 1 && restricted != 2); //end inner do while
            
         }while(response == 1);  //end outer do while
     }//end of addBook 
 
-        public static void EditBooks(Book[] books)
+        public static void EditBooks(String pathPrefix, Book[] books)
     {//begin EditBooks
         
         Scanner keyboard = new Scanner(System.in);
@@ -379,6 +382,7 @@ public class Project_Library
 
         }//end Do
         while(ID!=-1);
+        saveBooks(pathPrefix, books);
     }//end EditBooks
 
     public static void BookSearch(Book[] books)
@@ -1215,10 +1219,10 @@ public class Project_Library
         
     }
 
-    public static void saveLibrary(Library library)
+    public static void saveLibrary(String pathPrefix, Library library)
     {//begin saveLibrary
         //get the file as needed.
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_settings.xml";
+        String path = pathPrefix+"project_library_settings.xml";
         File patronXMLFile = new File(path);
         //if the file doesn't exist, ask for a path
         while (!patronXMLFile.exists())
@@ -1254,10 +1258,10 @@ public class Project_Library
         }
     }//end saveLibrary
 
-    public static void savePatrons(Patron[] patrons)
+    public static void savePatrons(String pathPrefix, Patron[] patrons)
     {
         //get the file as needed.
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_patrons.xml";
+        String path = pathPrefix+"project_library_patrons.xml";
         File patronXMLFile = new File(path);
         //if the file doesn't exist, ask for a path
         while (!patronXMLFile.exists())
@@ -1327,10 +1331,10 @@ public class Project_Library
         }
     }
 
-    public static void saveBooks(Book[] books)
+    public static void saveBooks(String pathPrefix, Book[] books)
     {
         //get the file as needed.
-        String path = "E:\\School\\bhc\\CS225\\Project_Library\\project_library_books.xml";
+        String path = pathPrefix+"project_library_books.xml";
         File patronXMLFile = new File(path);
         //if the file doesn't exist, ask for a path
         while (!patronXMLFile.exists())
@@ -1486,12 +1490,12 @@ public class Project_Library
         return NextID;
     }
         
-        public static void saveProject(Library library, Patron[] patrons, Book[] books)
+        public static void saveProject(String pathPrefix, Library library, Patron[] patrons, Book[] books)
         {
             System.out.println("Saving...");
-            saveLibrary(library);
-            savePatrons(patrons);
-            saveBooks(books);
+            saveLibrary(pathPrefix, library);
+            savePatrons(pathPrefix, patrons);
+            saveBooks(pathPrefix, books);
             System.out.println("Save complete");
         }
         
