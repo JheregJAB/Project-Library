@@ -9,7 +9,7 @@
     <status>IN</status>
     <category>empty</category>
     <description>Book one of a song of Ice and Fire</description>
-    <checkOutDate>5/5/-1</checkOutDate>
+    <checkOutDate>4/1/-1898</checkOutDate>
     <summary>Book one of a song of Ice and Fire</summary>
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
@@ -23,7 +23,7 @@
     <status>checked in</status>
     <category />
     <description />
-    <checkOutDate>5/5/-1</checkOutDate>
+    <checkOutDate>4/1/-1898</checkOutDate>
     <summary />
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
@@ -37,13 +37,13 @@
     <status>checked in</status>
     <category />
     <description />
-    <checkOutDate>5/5/-1</checkOutDate>
+    <checkOutDate>4/1/-1898</checkOutDate>
     <summary />
     <price>15.0</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
   <book id="3">
-    <restrictions>true</restrictions>
+    <restrictions>false</restrictions>
     <fiction>true</fiction>
     <title>The Girl with the Dragon Tattoo</title>
     <author>Stieg Larsson</author>
@@ -51,7 +51,7 @@
     <status>checked in</status>
     <category />
     <description>The first volume in the Millennium Trilogy, and an international publishing sensation, The Girl with the Dragon Tattoo combines murder mystery, family saga, love story, and financial intrigue into one satisfyingly complex and entertainingly atmospheric novel.</description>
-    <checkOutDate>11/3/-1898</checkOutDate>
+    <checkOutDate>10/3/-1</checkOutDate>
     <summary>The first volume in the Millennium Trilogy, and an international publishing sensation, The Girl with the Dragon Tattoo combines murder mystery, family saga, love story, and financial intrigue into one satisfyingly complex and entertainingly atmospheric novel.</summary>
     <price>9.99</price>
     <checkedOutBy>-1</checkedOutBy>
@@ -65,9 +65,121 @@
     <status>checked in</status>
     <category />
     <description>Compiled more than two thousand years ago, the Art of War is still perhaps the most prestigious and influential book of strategy in the world today. A study of the anatomy of forces in conflict, it has been discovered by modern business people, who understand the principles it contains are as useful for understanding the interactions of modern corporations as they are for understanding the tactics of ancient Chinese armies.</description>
-    <checkOutDate>11/3/-1898</checkOutDate>
+    <checkOutDate>10/3/-1</checkOutDate>
     <summary>Compiled more than two thousand years ago, the Art of War is still perhaps the most prestigious and influential book of strategy in the world today. A study of the anatomy of forces in conflict, it has been discovered by modern business people, who understand the principles it contains are as useful for understanding the interactions of modern corporations as they are for understanding the tactics of ancient Chinese armies.</summary>
     <price>11.22</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="5">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>Where the Wild Things Are</title>
+    <author>Maurice Sendak</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>In the forty years since Max first cried "Let the wild rumpus start," Maurice Sendak's classic picture book has become one of the most highly acclaimed and best-loved children's books of all time. Now, in celebration of this special anniversary, introduce a new generation to Max's imaginative journey to Where the Wild Things Are.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>In the forty years since Max first cried "Let the wild rumpus start," Maurice Sendak's classic picture book has become one of the most highly acclaimed and best-loved children's books of all time. Now, in celebration of this special anniversary, introduce a new generation to Max's imaginative journey to Where the Wild Things Are.</summary>
+    <price>10.77</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="6">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>Oh, the Places You�ll Go!</title>
+    <author>Dr. Seuss</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>Don't be fooled by the title of this seriocomic ode to success; it's not 'Climb Every Mountain,' kid version. All journeys face perils, whether from indecision, from loneliness, or worst of all, from too much waiting. Seuss' familiar pajama-clad hero is up to the challenge, and his odyssey is captured vividly in busy two-page spreads evoking both the good times (grinning purple elephants, floating golden castles) and the bad (deep blue wells of confusion). Seuss' message is simple but never sappy: life may be a 'Great Balancing Act,' but through it all 'There's fun to be done.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>Don't be fooled by the title of this seriocomic ode to success; it's not 'Climb Every Mountain,' kid version. All journeys face perils, whether from indecision, from loneliness, or worst of all, from too much waiting. Seuss' familiar pajama-clad hero is up to the challenge, and his odyssey is captured vividly in busy two-page spreads evoking both the good times (grinning purple elephants, floating golden castles) and the bad (deep blue wells of confusion). Seuss' message is simple but never sappy: life may be a 'Great Balancing Act,' but through it all 'There's fun to be done.</summary>
+    <price>10.79</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="7">
+    <restrictions>false</restrictions>
+    <fiction>false</fiction>
+    <title>The Silverado Squatters</title>
+    <author>Robert Louis Stevenson</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>The scene of this little book is on a high mountain. There are, indeed, many higher; there are many of a nobler outline. It is no place of pilgrimage for the summary globe-trotter; but to one who lives upon its sides, Mount Saint Helena soon becomes a center of interest.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>The scene of this little book is on a high mountain. There are, indeed, many higher; there are many of a nobler outline. It is no place of pilgrimage for the summary globe-trotter; but to one who lives upon its sides, Mount Saint Helena soon becomes a center of interest.</summary>
+    <price>10.95</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="8">
+    <restrictions>false</restrictions>
+    <fiction>false</fiction>
+    <title>The New Hacker's Dictionary - 3rd Edition</title>
+    <author>Eric S. Raymond</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>This new edition of the hacker's own phenomenally successful lexicon includes more than 100 new entries and updates or revises 200 more. Historically and etymologically richer than its predecessor, it supplies additional background on existing entries and clarifies the murky origins of several important jargon terms (overturning a few long-standing folk etymologies) while still retaining its high giggle value.</summary>
+    <price>34.0</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="9">
+    <restrictions>false</restrictions>
+    <fiction>false</fiction>
+    <title>Heroes of the Computer Revolution - 25th Anniversary Edition</title>
+    <author>Steven Levy</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>Steven Levy's classic book traces the exploits of the computer revolution's original hackers -- those brilliant and eccentric nerds from the late 1950s through the early '80s who took risks, bent the rules, and pushed the world in a radical new direction. With updated material from noteworthy hackers such as Bill Gates, Mark Zukerberg, Richard Stallman, and Steve Wozniak, Hackers is a fascinating story that begins in early computer research labs and leads to the first home computers.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>Steven Levy's classic book traces the exploits of the computer revolution's original hackers -- those brilliant and eccentric nerds from the late 1950s through the early '80s who took risks, bent the rules, and pushed the world in a radical new direction. With updated material from noteworthy hackers such as Bill Gates, Mark Zukerberg, Richard Stallman, and Steve Wozniak, Hackers is a fascinating story that begins in early computer research labs and leads to the first home computers.</summary>
+    <price>21.99</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="10">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>Ender�s Game</title>
+    <author>Orson Scott Card</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>In order to develop a secure defense against a hostile alien race's next attack, government agencies breed child geniuses and train them as soldiers. A brilliant young boy, Andrew "Ender" Wiggin lives with his kind but distant parents, his sadistic brother Peter, and the person he loves more than anyone else, his sister Valentine.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>In order to develop a secure defense against a hostile alien race's next attack, government agencies breed child geniuses and train them as soldiers. A brilliant young boy, Andrew "Ender" Wiggin lives with his kind but distant parents, his sadistic brother Peter, and the person he loves more than anyone else, his sister Valentine.</summary>
+    <price>5.99</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="11">
+    <restrictions>true</restrictions>
+    <fiction>true</fiction>
+    <title>11/22/63: A Novel</title>
+    <author>Steven King</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>On November 22, 1963, three shots rang out in Dallas, President Kennedy died, and the world changed. What if you could change it back? Stephen King�s heart-stoppingly dramatic new novel is about a man who travels back in time to prevent the JFK assassination�a thousand page tour de force.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>On November 22, 1963, three shots rang out in Dallas, President Kennedy died, and the world changed. What if you could change it back? Stephen King�s heart-stoppingly dramatic new novel is about a man who travels back in time to prevent the JFK assassination�a thousand page tour de force.</summary>
+    <price>35.0</price>
+    <checkedOutBy>-1</checkedOutBy>
+  </book>
+  <book id="12">
+    <restrictions>false</restrictions>
+    <fiction>true</fiction>
+    <title>Fahrenheit 451</title>
+    <author>Ray Bradbury</author>
+    <condition>new</condition>
+    <status>checked in</status>
+    <category />
+    <description>In Fahrenheit 451, Ray Bradbury's classic, frightening vision of the future, firemen don't put out fires--they start them in order to burn books. Bradbury's vividly painted society holds up the appearance of happiness as the highest goal--a place where trivial information is good, and knowledge and ideas are bad.</description>
+    <checkOutDate>11/3/-1898</checkOutDate>
+    <summary>In Fahrenheit 451, Ray Bradbury's classic, frightening vision of the future, firemen don't put out fires--they start them in order to burn books. Bradbury's vividly painted society holds up the appearance of happiness as the highest goal--a place where trivial information is good, and knowledge and ideas are bad.</summary>
+    <price>11.99</price>
     <checkedOutBy>-1</checkedOutBy>
   </book>
 </bookfile>

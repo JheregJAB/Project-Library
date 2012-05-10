@@ -88,7 +88,7 @@ public class Project_Library
            case 1: PatronOptions(pathPrefix, patrons); break;
            case 2: BooksMenu(pathPrefix, books); break;
            case 3: CheckoutBook(library, patrons, books); break;
-           case 4: CheckinBook(); break;
+           case 4: CheckinBook(pathPrefix, patrons, books, library); break;
            case 5: LibrarySettingsMenu(library); break;
            case 6: saveProject(pathPrefix, library, patrons, books); break;
            case 7: nextLoop = false; toReturn = true; break;
@@ -901,9 +901,47 @@ public class Project_Library
         }//end of outer else
    }
    
-   public static void CheckinBook()
+   public static void CheckinBook(String pathPrefix, Patron[] patrons, Book[] books, Library library)
+   {//begin CheckinBook
+       Scanner userInput = new Scanner(System.in);
+       
+       while (true)
+       {//begin while true
+           System.out.println("Enter Book ID number to check in, or enter -1 to exit");
+           System.out.print(": ");
+           int bookID = userInput.nextInt();
+           userInput.nextLine(); //absorb newline.
+           
+           //break out early if -1
+           if (bookID == -1)
+               break;
+           
+           //calculate fines from the book
+           double thisBookFine = CalcFineFromBook(books[bookID], library);
+           
+           //add the fine to the patron
+           patrons[books[bookID].getCheckedOutBy()].addOldFine(thisBookFine);
+           
+           //remove the book from the patron
+           for (int checkedBookNum = 0; checkedBookNum < patrons[books[bookID].getCheckedOutBy()].getCheckedBooks().length; checkedBookNum++)
+           {
+               if (patrons[books[bookID].getCheckedOutBy()].getCheckedBooks()[checkedBookNum] == bookID)
+                   patrons[books[bookID].getCheckedOutBy()].getCheckedBooks()[checkedBookNum] = -1;
+           }
+           
+           //remove the patron from the book
+           books[bookID].setCheckedOutBy(-1);
+           
+           //save the changes
+           saveBooks(pathPrefix, books);
+           savePatrons(pathPrefix, patrons);
+       }//end while true
+   }//end CheckinBook
+   
+   public static double CalcFineFromBook(Book book, Library library)
    {
-       System.out.println("You are at the Checkin Books Menu");
+       if (/* the fine is older than the number of days from library settings*/)
+           /*multiply the number of days overdue * the fine rate */
    }
    
    public static void LibrarySettingsMenu(Library settings)
@@ -1057,13 +1095,13 @@ public class Project_Library
                 books[id].setTitle(node.getChildText("title"));
                 books[id].setAuthor(node.getChildText("author"));
                 books[id].setCondition(node.getChildText("condition"));
-                books[id].setStatus(node.getChildText("status"));
                 books[id].setCategory(node.getChildText("category"));
                 books[id].setCheckOutDate(node.getChildText("checkOutDate"));
                 books[id].setSummary(node.getChildText("summary"));
                 books[id].setDescription(node.getChildText("description"));
                 books[id].setPrice(Double.parseDouble(node.getChildText("price")));
                 books[id].setCheckedOutBy(Integer.parseInt(node.getChildText("checkedOutBy")));
+                books[id].setStatus(node.getChildText("status"));
                 
             }
             return books;

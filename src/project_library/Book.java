@@ -110,7 +110,10 @@ public class Book
   
     public void setStatus(String newValue)
     {
-        status = newValue;
+        if (checkedOutBy != -1)
+            status = "Checked Out";
+        else
+            status = "Available";
     }
   
     public void setCategory(String newValue)
