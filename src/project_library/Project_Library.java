@@ -125,7 +125,7 @@ public class Project_Library
             case 1: addBook(pathPrefix, books); break;
             case 2: BookSearch(books);break;
             case 3: AllBooks(books);break;
-            case 4: EditBooks(books);break;
+            case 4: EditBooks(pathPrefix, books);break;
             default:System.out.println("Invalid Option"); break;
         }//end switch
 
